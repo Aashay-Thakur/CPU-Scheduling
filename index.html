@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Program 1 - FCFS</title>
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+        <style>
+            html {
+                font-family: sans-serif;
+            }
+            #chartContainer {
+                margin-bottom: 10rem;
+            }
+            .low {
+                margin-top: 5rem;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row"><h1 id="head">CPU Scheduling</h1></div>
+            <div class="row">
+                <div class="input-field col s16">
+                    <select name="type" id="type">
+                        <option value="FCFS">FCFS</option>
+                        <!-- <option value="SJF">SJF</option> -->
+                        <label for="type">Sheduling Type</label>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s4">
+                    <div class="col s8">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Process ID</th>
+                                    <th>Arrival Time</th>
+                                    <th>Burst Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr id="p1" class="process">
+                                    <td>P1</td>
+                                    <td>
+                                        <input type="number" name="p1a" id="p1a" value="2" />
+                                    </td>
+                                    <td>
+                                        <input type="number" name="p1b" id="p1a" value="2" />
+                                    </td>
+                                </tr>
+                                <tr id="p2" class="process">
+                                    <td>P2</td>
+                                    <td>
+                                        <input type="number" name="p2a" id="p2a" value="0" />
+                                    </td>
+                                    <td>
+                                        <input type="number" name="p2b" id="p2a" value="1" />
+                                    </td>
+                                </tr>
+                                <tr id="p3" class="process">
+                                    <td>P3</td>
+                                    <td>
+                                        <input type="number" name="p3a" id="p3a" value="2" />
+                                    </td>
+                                    <td>
+                                        <input type="number" name="p3b" id="p3a" value="3" />
+                                    </td>
+                                </tr>
+                                <tr id="p4" class="process">
+                                    <td>P4</td>
+                                    <td>
+                                        <input type="number" name="p4a" id="p4a" value="3" />
+                                    </td>
+                                    <td>
+                                        <input type="number" name="p4b" id="p4a" value="5" />
+                                    </td>
+                                </tr>
+                                <tr id="p5" class="process">
+                                    <td>P5</td>
+                                    <td>
+                                        <input type="number" name="p5a" id="p5a" value="4" />
+                                    </td>
+                                    <td>
+                                        <input type="number" name="p5b" id="p5a" value="4" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col s8">
+                    <div class="row sub_table"></div>
+                    <div class="row" id="processed-data"></div>
+                    <div class="row" id="average"></div>
+                </div>
+            </div>
+            <div class="row">
+                <a class="waves-effect waves-light btn">Calculate</a>
+            </div>
+            <div class="row low">
+                <div class="row sub_chart"></div>
+                <div class="row" id="chartContainer">
+                    <canvas id="myChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <script src="./index.js"></script>
+    </body>
+</html>
