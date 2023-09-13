@@ -13,7 +13,7 @@
 		<style>
 			html {
 				font-family: sans-serif;
-				overflow-x: hidden;
+				overflow-x: auto;
 			}
 			body {
 				overflow-x: hidden;
@@ -26,6 +26,13 @@
 			}
 			.btn {
 				margin-top: 3rem;
+			}
+			[type="number"] {
+				text-align: center;
+			}
+			#chartContainer {
+				position: relative;
+				overflow-x: auto;
 			}
 		</style>
 	</head>
@@ -45,7 +52,7 @@
 			<div class="row">
 				<div class="col s12 m4 l4">
 					<div class="col s12 m8 l8">
-						<table>
+						<table class="centered">
 							<thead>
 								<tr>
 									<th>Process ID</th>
@@ -116,7 +123,7 @@
 			<div class="row low">
 				<div class="row sub_chart"></div>
 				<div class="row" id="chartContainer">
-					<canvas id="myChart"></canvas>
+					<canvas id="myChart" height="300" width="0"></canvas>
 				</div>
 			</div>
 		</div>

@@ -7,6 +7,7 @@ export default function createChart(data) {
 			datasets: data,
 		},
 		options: {
+			responsive: true,
 			maintainAspectRatio: false,
 			datasets: {
 				line: {
