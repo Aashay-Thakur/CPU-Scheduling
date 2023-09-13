@@ -13,12 +13,19 @@
 		<style>
 			html {
 				font-family: sans-serif;
+				overflow-x: hidden;
+			}
+			body {
+				overflow-x: hidden;
 			}
 			#chartContainer {
 				margin-bottom: 10rem;
 			}
 			.low {
 				margin-top: 5rem;
+			}
+			.btn {
+				margin-top: 3rem;
 			}
 		</style>
 	</head>
@@ -94,6 +101,9 @@
 								</tr>
 							</tbody>
 						</table>
+						<div class="row">
+							<a class="waves-effect waves-light btn">Calculate</a>
+						</div>
 					</div>
 				</div>
 				<div class="col s12 m8 l8">
@@ -102,9 +112,7 @@
 					<div class="row" id="average"></div>
 				</div>
 			</div>
-			<div class="row">
-				<a class="waves-effect waves-light btn">Calculate</a>
-			</div>
+
 			<div class="row low">
 				<div class="row sub_chart"></div>
 				<div class="row" id="chartContainer">
