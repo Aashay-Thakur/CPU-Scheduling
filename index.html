@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Program 1 - FCFS</title>
+		<title>CPU Scheduling</title>
 		<!-- Compiled and minified CSS -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
 
@@ -17,9 +17,6 @@
 			}
 			body {
 				overflow-x: hidden;
-			}
-			#chartContainer {
-				margin-bottom: 10rem;
 			}
 			.low {
 				margin-top: 5rem;
@@ -43,8 +40,8 @@
 				<div class="input-field col s16">
 					<select name="type" id="type">
 						<option value="FCFS">FCFS</option>
-						<option selected value="SJF">SJF</option>
-						<option value="Priority">Priority</option>
+						<option value="SJF">SJF</option>
+						<option selected value="Priority">Priority</option>
 						<label for="type">Sheduling Type</label>
 					</select>
 				</div>
@@ -54,7 +51,7 @@
 					<div class="col s12 m8 l8">
 						<table class="centered">
 							<thead>
-								<tr>
+								<tr id="table_head_row">
 									<th>Process ID</th>
 									<th>Arrival Time</th>
 									<th>Burst Time</th>
@@ -63,48 +60,28 @@
 							<tbody>
 								<tr id="p1" class="process">
 									<td>P1</td>
-									<td>
-										<input type="number" name="p1a" id="p1a" value="2" />
-									</td>
-									<td>
-										<input type="number" name="p1b" id="p1a" value="1" />
-									</td>
+									<td><input type="number" name="p1arrival" id="p1arrival" value="2" min="0" max="100" /></td>
+									<td><input type="number" name="p1burst" id="p1burst" value="1" min="0" max="100" /></td>
 								</tr>
 								<tr id="p2" class="process">
 									<td>P2</td>
-									<td>
-										<input type="number" name="p2a" id="p2a" value="1" />
-									</td>
-									<td>
-										<input type="number" name="p2b" id="p2a" value="5" />
-									</td>
+									<td><input type="number" name="p2arrival" id="p2arrival" value="1" min="0" max="100" /></td>
+									<td><input type="number" name="p2burst" id="p2burst" value="5" min="0" max="100" /></td>
 								</tr>
 								<tr id="p3" class="process">
 									<td>P3</td>
-									<td>
-										<input type="number" name="p3a" id="p3a" value="4" />
-									</td>
-									<td>
-										<input type="number" name="p3b" id="p3a" value="1" />
-									</td>
+									<td><input type="number" name="p3arrival" id="p3arrival" value="4" min="0" max="100" /></td>
+									<td><input type="number" name="p3burst" id="p3burst" value="1" min="0" max="100" /></td>
 								</tr>
 								<tr id="p4" class="process">
 									<td>P4</td>
-									<td>
-										<input type="number" name="p4a" id="p4a" value="0" />
-									</td>
-									<td>
-										<input type="number" name="p4b" id="p4a" value="6" />
-									</td>
+									<td><input type="number" name="p4arrival" id="p4arrival" value="0" min="0" max="100" /></td>
+									<td><input type="number" name="p4burst" id="p4burst" value="6" min="0" max="100" /></td>
 								</tr>
 								<tr id="p5" class="process">
 									<td>P5</td>
-									<td>
-										<input type="number" name="p5a" id="p5a" value="2" />
-									</td>
-									<td>
-										<input type="number" name="p5b" id="p5a" value="3" />
-									</td>
+									<td><input type="number" name="p5arrival" id="p5arrival" value="2" min="0" max="100" /></td>
+									<td><input type="number" name="p5burst" id="p5burst" value="3" min="0" max="100" /></td>
 								</tr>
 							</tbody>
 						</table>
@@ -123,7 +100,7 @@
 			<div class="row low">
 				<div class="row sub_chart"></div>
 				<div class="row" id="chartContainer">
-					<canvas id="myChart" height="300" width="0"></canvas>
+					<canvas id="myChart"></canvas>
 				</div>
 			</div>
 		</div>

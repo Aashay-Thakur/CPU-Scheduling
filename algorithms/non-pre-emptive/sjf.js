@@ -19,7 +19,7 @@ export default function sjf(data) {
 	sortable.map((process, index) => {
 		if (index === 0) {
 			process[1].startTime = process[1].arrivalTime;
-			process[1].endTime = process[1].burstTime;
+			process[1].endTime = process[1].burstTime + process[1].startTime;
 		} else {
 			process[1].startTime = process[1].arrivalTime <= sortable[index - 1][1].endTime ? sortable[index - 1][1].endTime : process[1].arrivalTime;
 			process[1].endTime = process[1].startTime + process[1].burstTime;
@@ -51,10 +51,5 @@ export default function sjf(data) {
 		return a[1].pid - b[1].pid;
 	});
 
-	document.getElementById("myChart").remove();
-	document.getElementById("chartContainer").innerHTML = '<canvas id="myChart"></canvas>';
-	document.querySelector(".sub_table").innerHTML = "<h5>SJF Scheduling Table</h5>";
-	document.querySelector(".sub_chart").innerHTML = "<h5>SJF Scheduling - Gantt Chart</h5>";
-
-	return { chartData, processedData };
+	return { chartData, processedData, type: "SJF" };
 }

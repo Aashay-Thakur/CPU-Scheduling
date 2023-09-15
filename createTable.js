@@ -1,4 +1,4 @@
-export default function createTable(data) {
+export default function createTable(data, type) {
 	const tableContainer = document.getElementById("processed-data");
 	const table = document.createElement("table");
 	table.classList.add("centered", "striped", "responsive-table");
@@ -33,4 +33,6 @@ export default function createTable(data) {
 	const averageWaiting = document.createElement("p");
 	averageWaiting.innerHTML = `Average Waiting Time: <b>${data.reduce((acc, curr) => acc + curr[1].waitingTime, 0) / data.length}</b>`;
 	averageContainer.appendChild(averageWaiting);
+
+	document.querySelector(".sub_table").innerHTML = `<h5>${type} Scheduling Table</h5>`;
 }
