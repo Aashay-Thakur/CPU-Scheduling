@@ -5,17 +5,23 @@ import priority from "./algorithms/non-pre-emptive/priority.js";
 import createChart from "./createChart.js";
 import createTable from "./createTable.js";
 
+import fillData from "./fillData.js";
+
 document.addEventListener("DOMContentLoaded", function () {
 	var elems = document.querySelectorAll("select");
 	var instances = M.FormSelect.init(elems, {});
 
-	updateFormTable(document.querySelector("#type").value);
+	let type = document.querySelector("#type").value;
+	updateFormTable(type);
+	fillData(type);
 });
 
 const submit = document.querySelector(".btn");
 
 document.querySelector("#type").addEventListener("change", (e) => {
-	updateFormTable(e.target.value);
+	let type = e.target.value;
+	updateFormTable(type);
+	fillData(type);
 });
 
 function updateFormTable(type) {
@@ -29,7 +35,6 @@ function updateFormTable(type) {
 			priorityHead.classList.add("toBeRemoved");
 			tableHead.appendChild(priorityHead);
 
-			var defaultPriority = [5, 3, 2, 2, 1];
 			processRows.forEach((elem, index) => {
 				let priorityTableData = document.createElement("td");
 				let priorityInput = document.createElement("input");
@@ -37,8 +42,8 @@ function updateFormTable(type) {
 				priorityInput.setAttribute("min", "0");
 				priorityInput.setAttribute("id", `p${index + 1}priority`);
 				priorityInput.setAttribute("name", `p${index + 1}priority`);
-				priorityInput.setAttribute("value", defaultPriority[index]);
 				priorityInput.dataset.name = "priority";
+				priorityInput.classList.add("priorityInput");
 
 				priorityTableData.appendChild(priorityInput);
 				priorityTableData.classList.add("toBeRemoved");
@@ -77,9 +82,10 @@ submit.addEventListener("click", () => {
 		createTable(processedData, type);
 	}
 	if (document.querySelector("#type").value === "Priority") {
-		priority(processes);
-		// const { chartData, processedData, type } = priority(processes);
-		// createChart(chartData, type);
-		// createTable(processedData, type);
+		const { chartData, processedData, type } = priority(processes);
+		createChart(chartData, type);
+		createTable(processedData, type);
+
+		console.log(processedData);
 	}
 });
