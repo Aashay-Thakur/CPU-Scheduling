@@ -1,16 +1,21 @@
-export default function createTable(data) {
+export default function createTable(data, type) {
 	const tableContainer = document.getElementById("processed-data");
 	const table = document.createElement("table");
 	table.classList.add("centered", "striped", "responsive-table");
 	table.createTHead();
 	const header = table.tHead.insertRow();
-	const headerData = ["Process", "Arrival Time", "Burst Time", "Start Time", "End Time", "Turn Around Time", "Waiting Time"];
-	headerData.forEach((data) => {
+	const headerData = ["Process", "Arrival Time", "Burst Time", "Priority", "Start Time", "End Time", "Turn Around Time", "Waiting Time"];
+	console.log(type);
+	if (type !== "Priority") headerData.splice(3, 1);
+
+	headerData.forEach((head) => {
 		const cell = document.createElement("th");
-		cell.innerText = data;
+		cell.classList.add("center-align");
+		cell.innerText = head;
 		header.appendChild(cell);
 	});
 	const body = table.createTBody();
+
 	data.forEach((process) => {
 		const row = body.insertRow();
 		const cell = row.insertCell();
@@ -33,4 +38,6 @@ export default function createTable(data) {
 	const averageWaiting = document.createElement("p");
 	averageWaiting.innerHTML = `Average Waiting Time: <b>${data.reduce((acc, curr) => acc + curr[1].waitingTime, 0) / data.length}</b>`;
 	averageContainer.appendChild(averageWaiting);
+
+	document.querySelector(".sub_table").innerHTML = `<h5>${type} Scheduling Table</h5>`;
 }

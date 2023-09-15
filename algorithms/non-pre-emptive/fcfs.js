@@ -3,6 +3,7 @@ export default function fcfs(data) {
 	for (let process in data) {
 		sortable.push([process, data[process]]);
 	}
+	// Sort process by arrival time
 	sortable.sort(function (a, b) {
 		return a[1].arrivalTime - b[1].arrivalTime;
 	});
@@ -11,17 +12,17 @@ export default function fcfs(data) {
 	sortable.forEach((process, index) => {
 		if (index === 0) {
 			process[1].startTime = process[1].arrivalTime;
-			process[1].endTime = process[1].burstTime;
+			process[1].endTime = process[1].burstTime + process[1].arrivalTime;
 		} else {
-			process[1].startTime =
-				process[1].arrivalTime <= sortable[index - 1][1].endTime
-					? sortable[index - 1][1].endTime
-					: process[1].arrivalTime;
+			process[1].startTime = process[1].arrivalTime <= sortable[index - 1][1].endTime ? sortable[index - 1][1].endTime : process[1].arrivalTime;
 			process[1].endTime = process[1].startTime + process[1].burstTime;
 		}
 		process[1].turnAroundTime = process[1].endTime - process[1].arrivalTime;
-		process[1].waitingTime =
-			process[1].turnAroundTime - process[1].burstTime;
+		process[1].waitingTime = process[1].turnAroundTime - process[1].burstTime;
+
+		process[1].order = index + 1;
+		process[1].pid = Number(process[0].slice(1));
+
 		processedData.push(process);
 
 		chartData.push({
@@ -38,13 +39,10 @@ export default function fcfs(data) {
 			],
 		});
 	});
-	document.getElementById("myChart").remove();
-	document.getElementById("chartContainer").innerHTML =
-		'<canvas id="myChart"></canvas>';
-	document.querySelector(".sub_table").innerHTML =
-		"<h5>FCFS Scheduling Table</h5>";
-	document.querySelector(".sub_chart").innerHTML =
-		"<h5>FCFS Scheduling - Gantt Chart</h5>";
 
-	return { chartData, processedData };
+	processedData.sort(function (a, b) {
+		return a[1].pid - b[1].pid;
+	});
+
+	return { chartData, processedData, type: "FCFS" };
 }

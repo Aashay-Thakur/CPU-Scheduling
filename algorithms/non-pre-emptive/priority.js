@@ -1,22 +1,23 @@
-export default function sjf(data) {
+export default function priority(data) {
 	var sortable = [];
 	for (let process in data) {
 		sortable.push([process, data[process]]);
 	}
-
+	// Sort process by priority
 	sortable
 		.sort(function (a, b) {
 			return a[1].arrivalTime - b[1].arrivalTime;
 		})
 		.sort(function (a, b) {
 			if (!a[1].arrivalTime - b[1].arrivalTime < 0) {
-				return a[1].burstTime - b[1].burstTime;
+				return a[1].priority - b[1].priority;
 			}
 		});
 
 	var chartData = [];
 	var processedData = [];
-	sortable.map((process, index) => {
+
+	sortable.forEach((process, index) => {
 		if (index === 0) {
 			process[1].startTime = process[1].arrivalTime;
 			process[1].endTime = process[1].burstTime + process[1].startTime;
@@ -29,8 +30,6 @@ export default function sjf(data) {
 
 		process[1].order = index + 1;
 		process[1].pid = Number(process[0].slice(1));
-
-		processedData.push(process);
 
 		chartData.push({
 			label: process[0],
@@ -45,11 +44,10 @@ export default function sjf(data) {
 				},
 			],
 		});
+
+		processedData.sort((a, b) => a[1].pid - b[1].pid);
+		processedData.push(process);
 	});
 
-	processedData.sort(function (a, b) {
-		return a[1].pid - b[1].pid;
-	});
-
-	return { chartData, processedData, type: "SJF" };
+	return { chartData, processedData, type: "Priority" };
 }

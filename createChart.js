@@ -1,4 +1,6 @@
-export default function createChart(data) {
+export default function createChart(data, type) {
+	document.getElementById("chartContainer").innerHTML = "";
+	document.getElementById("chartContainer").innerHTML = "<canvas id='myChart'></canvas>";
 	const ctx = document.getElementById("myChart");
 
 	const myChart = new Chart(ctx, {
@@ -48,4 +50,6 @@ export default function createChart(data) {
 			},
 		},
 	});
+
+	document.querySelector(".sub_chart").innerHTML = `<h5>${type} Scheduling - Gantt Chart</h5>`;
 }
