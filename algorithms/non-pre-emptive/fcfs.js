@@ -7,7 +7,6 @@ export default function fcfs(data) {
 	sortable.sort(function (a, b) {
 		return a[1].arrivalTime - b[1].arrivalTime;
 	});
-	console.log(sortable);
 	var chartData = [];
 	var processedData = [];
 	sortable.forEach((process, index) => {

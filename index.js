@@ -1,5 +1,7 @@
 import fcfs from "./algorithms/non-pre-emptive/fcfs.js";
 import sjf from "./algorithms/non-pre-emptive/sjf.js";
+import priority from "./algorithms/non-pre-emptive/priority.js";
+
 import createChart from "./createChart.js";
 import createTable from "./createTable.js";
 
@@ -36,6 +38,7 @@ function updateFormTable(type) {
 				priorityInput.setAttribute("id", `p${index + 1}priority`);
 				priorityInput.setAttribute("name", `p${index + 1}priority`);
 				priorityInput.setAttribute("value", defaultPriority[index]);
+				priorityInput.dataset.name = "priority";
 
 				priorityTableData.appendChild(priorityInput);
 				priorityTableData.classList.add("toBeRemoved");
@@ -55,10 +58,13 @@ submit.addEventListener("click", () => {
 	var processes = {};
 	dataElems.forEach((elem) => {
 		var data = elem.children;
-		processes[data[0].innerText] = {
-			arrivalTime: Number(data[1].firstElementChild.value),
-			burstTime: Number(data[2].firstElementChild.value),
-		};
+		let temp = {};
+		Array.from(data).forEach((elem, index) => {
+			if (index !== 0) {
+				temp[elem.firstChild.dataset.name] = Number(elem.firstChild.value);
+			}
+		});
+		processes[data[0].innerText] = temp;
 	});
 	if (document.querySelector("#type").value === "FCFS") {
 		const { chartData, processedData, type } = fcfs(processes);
@@ -69,5 +75,11 @@ submit.addEventListener("click", () => {
 		const { chartData, processedData, type } = sjf(processes);
 		createChart(chartData, type);
 		createTable(processedData, type);
+	}
+	if (document.querySelector("#type").value === "Priority") {
+		priority(processes);
+		// const { chartData, processedData, type } = priority(processes);
+		// createChart(chartData, type);
+		// createTable(processedData, type);
 	}
 });
