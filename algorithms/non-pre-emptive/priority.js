@@ -1,4 +1,4 @@
-export default function priority(data) {
+export default function priority(data, options = { reverse: false }) {
 	var sortable = [];
 	for (let process in data) {
 		sortable.push([process, data[process]]);
@@ -10,7 +10,7 @@ export default function priority(data) {
 		})
 		.sort(function (a, b) {
 			if (!a[1].arrivalTime - b[1].arrivalTime < 0) {
-				return a[1].priority - b[1].priority;
+				return options.reverse ? a[1].priority - b[1].priority : b[1].priority - a[1].priority;
 			}
 		});
 

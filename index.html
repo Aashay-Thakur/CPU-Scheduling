@@ -6,7 +6,7 @@
 		<title>CPU Scheduling</title>
 		<!-- Compiled and minified CSS -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
-
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 		<!-- Compiled and minified JavaScript -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
@@ -37,7 +37,7 @@
 		<div class="container">
 			<div class="row"><h1 id="head">CPU Scheduling</h1></div>
 			<div class="row">
-				<div class="input-field col s16">
+				<div class="input-field col">
 					<select name="type" id="type">
 						<option value="FCFS">FCFS</option>
 						<option value="SJF">SJF</option>
@@ -45,6 +45,9 @@
 						<label for="type">Sheduling Type</label>
 					</select>
 				</div>
+			</div>
+			<div class="row">
+				<div class="col" id="switch-container"></div>
 			</div>
 			<div class="row">
 				<div class="col s12 m4 l4">
