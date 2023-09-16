@@ -1,6 +1,7 @@
 export default function createTable(data, type) {
 	const tableContainer = document.getElementById("processed-data");
 	const table = document.createElement("table");
+	table.classList.add("striped", "centered", "responsive-table");
 	table.createTHead();
 	const header = table.tHead.insertRow();
 	const headerData = ["Process", "Arrival Time", "Burst Time", "Priority", "Start Time", "End Time", "Turn Around Time", "Waiting Time"];
