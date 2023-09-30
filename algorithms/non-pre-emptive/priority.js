@@ -9,10 +9,11 @@ export default function priority(data, options = { reverse: false }) {
 			return a[1].arrivalTime - b[1].arrivalTime;
 		})
 		.sort(function (a, b) {
-			if (!a[1].arrivalTime - b[1].arrivalTime < 0) {
+			if (!a[1].arrivalTime - b[1].arrivalTime > 0) {
 				return options.reverse ? a[1].priority - b[1].priority : b[1].priority - a[1].priority;
 			}
 		});
+	console.log(sortable);
 
 	var chartData = [];
 	var processedData = [];
@@ -45,9 +46,9 @@ export default function priority(data, options = { reverse: false }) {
 			],
 		});
 
-		processedData.sort((a, b) => a[1].pid - b[1].pid);
 		processedData.push(process);
 	});
+	processedData.sort((a, b) => a[1].pid - b[1].pid);
 
 	return { chartData, processedData, type: "Priority" };
 }
