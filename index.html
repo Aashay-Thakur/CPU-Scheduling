@@ -37,17 +37,18 @@
 		<div class="container">
 			<div class="row"><h1 id="head">CPU Scheduling</h1></div>
 			<div class="row">
-				<div class="input-field col">
+				<div class="input-field col s12 l3 m3">
 					<select name="type" id="type">
-						<option value="FCFS">FCFS</option>
-						<option selected value="SJF">SJF</option>
+						<option value="FCFS">First Come First Serve</option>
+						<option value="SJF">Shortest Job First</option>
 						<option value="Priority">Priority</option>
+						<option selected value="RR">Round Robin</option>
 						<label for="type">Sheduling Type</label>
 					</select>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col" id="switch-container"></div>
+				<div class="col" id="options-container"></div>
 			</div>
 			<div class="row">
 				<div class="col s12 m3 l3">

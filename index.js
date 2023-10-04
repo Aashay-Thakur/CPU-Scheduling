@@ -2,6 +2,8 @@ import fcfs from "./algorithms/non-pre-emptive/fcfs.js";
 import sjf from "./algorithms/non-pre-emptive/sjf.js";
 import priority from "./algorithms/non-pre-emptive/priority.js";
 
+import rr from "./algorithms/pre-emptive/rr.js";
+
 import createChart from "./createChart.js";
 import createTable from "./createTable.js";
 
@@ -30,8 +32,8 @@ function updateFormTable(type) {
 		case "Priority":
 			var processRows = document.querySelectorAll(".process");
 
-			var switchContainer = document.querySelector("#switch-container");
-			switchContainer.innerHTML = `
+			var optionsContainer = document.querySelector("#options-container");
+			optionsContainer.innerHTML = `
 			<div class="toBeRemoved">
 				Reverse Priority
 				<div class="switch">
@@ -64,6 +66,15 @@ function updateFormTable(type) {
 				priorityTableData.classList.add("toBeRemoved");
 				elem.appendChild(priorityTableData);
 			});
+			break;
+		case "RR":
+			var optionsContainer = document.querySelector("#options-container");
+			optionsContainer.innerHTML = `
+					<div className="input-field col s1 l1 m1 toBeRemoved">
+						<input type="number" value="1" id="quantum" name="quantum" min="1" />
+						<label htmlFor="quantum">Quantum</label>
+					</div>
+			`;
 			break;
 		default:
 			document.querySelectorAll(".toBeRemoved").forEach((elem) => {
@@ -102,12 +113,19 @@ submit.addEventListener("click", () => {
 		createTable(processedData, type);
 	}
 	if (type === "Priority") {
-		var options = {
+		let options = {
 			reverse: document.getElementById("reverse-switch").checked,
 		};
 
 		const { chartData, processedData, type } = priority(processes, options);
 		createChart(chartData, type);
 		createTable(processedData, type);
+	}
+	if (type == "RR") {
+		let option = { quantum: Number(document.querySelector("#quantum").value) };
+		rr(processes, option);
+		// const { chartData, processedData, type } = rr(processes, quantum);
+		// createChart(chartData, type);
+		// createTable(processedData, type);
 	}
 });

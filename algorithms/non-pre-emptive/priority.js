@@ -3,17 +3,25 @@ export default function priority(data, options = { reverse: false }) {
 	for (let process in data) {
 		sortable.push([process, data[process]]);
 	}
-	// Sort process by priority
-	sortable
-		.sort(function (a, b) {
-			return a[1].arrivalTime - b[1].arrivalTime;
-		})
-		.sort(function (a, b) {
-			if (!a[1].arrivalTime - b[1].arrivalTime > 0) {
-				return options.reverse ? a[1].priority - b[1].priority : b[1].priority - a[1].priority;
-			}
-		});
-	console.log(sortable);
+
+	let sorted = [];
+	let currentTime = 0;
+	let MAX_INT = Number.MAX_VALUE;
+	while (true || currentTime == MAX_INT) {
+		if (sortable.some((process) => process[1].arrivalTime <= currentTime)) {
+			let processes = sortable.filter((process) => process[1].arrivalTime <= currentTime);
+			processes.sort((a, b) => {
+				return options.reverse ? b[1].priority - a[1].priority : a[1].priority - b[1].priority;
+			});
+			sorted.push(processes[0]);
+			sortable = sortable.filter((process) => process[0] !== processes[0][0]);
+			currentTime += processes[0][1].burstTime;
+		} else {
+			currentTime++;
+		}
+		if (sortable.length === 0) break;
+	}
+	sortable = sorted;
 
 	var chartData = [];
 	var processedData = [];

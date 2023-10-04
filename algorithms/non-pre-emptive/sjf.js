@@ -4,13 +4,15 @@ export default function sjf(data) {
 		sortable.push([process, data[process]]);
 	}
 
+	// Failsafe to prevent infinite loop
+	var MAX_INT = Number.MAX_VALUE;
 	//* Empty array to store sorted processes
 	let sorted = [];
 	//* Current time acts like a clock for the algorithm,
 	//* to determine which processes have arrived and to sort them
 	let currentTime = 0;
 	//! Infinite loop, breaks when all processes are sorted
-	while (true) {
+	while (true || currentTime == MAX_INT) {
 		//* Check if any processes have arrived at the current time
 		if (sortable.some((process) => process[1].arrivalTime <= currentTime)) {
 			//* Filter out processes that have arrived
