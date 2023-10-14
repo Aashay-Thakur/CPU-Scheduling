@@ -1,4 +1,5 @@
 export default function createChart(data, type) {
+	console.log(data);
 	document.getElementById("chartContainer").innerHTML = "";
 	document.getElementById("chartContainer").innerHTML = "<canvas id='myChart'></canvas>";
 	const ctx = document.getElementById("myChart");

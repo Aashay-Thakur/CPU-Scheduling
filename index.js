@@ -71,7 +71,7 @@ function updateFormTable(type) {
 			var optionsContainer = document.querySelector("#options-container");
 			optionsContainer.innerHTML = `
 					<div className="input-field col s1 l1 m1 toBeRemoved">
-						<input type="number" value="1" id="quantum" name="quantum" min="1" />
+						<input type="number" value="10" id="quantum" name="quantum" min="1" />
 						<label htmlFor="quantum">Quantum</label>
 					</div>
 			`;
