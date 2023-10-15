@@ -5,7 +5,10 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>CPU Scheduling</title>
 		<!-- Compiled and minified CSS -->
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+		/>
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 		<!-- Compiled and minified JavaScript -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
@@ -63,33 +66,143 @@
 						<tbody>
 							<tr id="p1" class="process">
 								<td>P1</td>
-								<td><input type="number" data-name="arrivalTime" name="p1arrival" class="arrivalInput" id="p1arrival" min="0" max="100" /></td>
-								<td><input type="number" data-name="burstTime" name="p1burst" id="p1burst" class="burstInput" min="0" max="100" /></td>
+								<td>
+									<input
+										type="number"
+										data-name="arrivalTime"
+										name="p1arrival"
+										class="arrivalInput"
+										id="p1arrival"
+										min="0"
+										max="100"
+									/>
+								</td>
+								<td>
+									<input
+										type="number"
+										data-name="burstTime"
+										name="p1burst"
+										id="p1burst"
+										class="burstInput"
+										min="0"
+										max="100"
+									/>
+								</td>
 							</tr>
 							<tr id="p2" class="process">
 								<td>P2</td>
-								<td><input type="number" data-name="arrivalTime" name="p2arrival" class="arrivalInput" id="p2arrival" min="0" max="100" /></td>
-								<td><input type="number" data-name="burstTime" name="p2burst" id="p2burst" class="burstInput" min="0" max="100" /></td>
+								<td>
+									<input
+										type="number"
+										data-name="arrivalTime"
+										name="p2arrival"
+										class="arrivalInput"
+										id="p2arrival"
+										min="0"
+										max="100"
+									/>
+								</td>
+								<td>
+									<input
+										type="number"
+										data-name="burstTime"
+										name="p2burst"
+										id="p2burst"
+										class="burstInput"
+										min="0"
+										max="100"
+									/>
+								</td>
 							</tr>
 							<tr id="p3" class="process">
 								<td>P3</td>
-								<td><input type="number" data-name="arrivalTime" name="p3arrival" class="arrivalInput" id="p3arrival" min="0" max="100" /></td>
-								<td><input type="number" data-name="burstTime" name="p3burst" id="p3burst" class="burstInput" min="0" max="100" /></td>
+								<td>
+									<input
+										type="number"
+										data-name="arrivalTime"
+										name="p3arrival"
+										class="arrivalInput"
+										id="p3arrival"
+										min="0"
+										max="100"
+									/>
+								</td>
+								<td>
+									<input
+										type="number"
+										data-name="burstTime"
+										name="p3burst"
+										id="p3burst"
+										class="burstInput"
+										min="0"
+										max="100"
+									/>
+								</td>
 							</tr>
 							<tr id="p4" class="process">
 								<td>P4</td>
-								<td><input type="number" data-name="arrivalTime" name="p4arrival" class="arrivalInput" id="p4arrival" min="0" max="100" /></td>
-								<td><input type="number" data-name="burstTime" name="p4burst" id="p4burst" class="burstInput" min="0" max="100" /></td>
+								<td>
+									<input
+										type="number"
+										data-name="arrivalTime"
+										name="p4arrival"
+										class="arrivalInput"
+										id="p4arrival"
+										min="0"
+										max="100"
+									/>
+								</td>
+								<td>
+									<input
+										type="number"
+										data-name="burstTime"
+										name="p4burst"
+										id="p4burst"
+										class="burstInput"
+										min="0"
+										max="100"
+									/>
+								</td>
 							</tr>
 							<tr id="p5" class="process">
 								<td>P5</td>
-								<td><input type="number" data-name="arrivalTime" name="p5arrival" class="arrivalInput" id="p5arrival" min="0" max="100" /></td>
-								<td><input type="number" data-name="burstTime" name="p5burst" id="p5burst" class="burstInput" min="0" max="100" /></td>
+								<td>
+									<input
+										type="number"
+										data-name="arrivalTime"
+										name="p5arrival"
+										class="arrivalInput"
+										id="p5arrival"
+										min="0"
+										max="100"
+									/>
+								</td>
+								<td>
+									<input
+										type="number"
+										data-name="burstTime"
+										name="p5burst"
+										id="p5burst"
+										class="burstInput"
+										min="0"
+										max="100"
+									/>
+								</td>
 							</tr>
 						</tbody>
 					</table>
 					<div class="row">
-						<a class="waves-effect waves-light btn">Calculate</a>
+						<div class="col s12 m6 l6">
+							<a class="waves-effect waves-light btn randomize" style="width: 100%">Randomize</a>
+						</div>
+						<div class="col s12 m6 l6">
+							<a class="waves-effect waves-light btn reset red lighten-2" style="width: 100%">Reset</a>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col s12">
+							<a class="waves-effect waves-light btn submit" style="width: 100%">Calculate</a>
+						</div>
 					</div>
 				</div>
 				<div class="col s12 m8 l8 offset-l1 offset-m1">

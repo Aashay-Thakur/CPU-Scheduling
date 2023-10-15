@@ -1,7 +1,17 @@
-export default function fillData(type) {
-	let arrivalData = [0, 5, 12, 2, 9];
-	let burstData = [11, 28, 2, 10, 16];
-	let priorityData = [2, 0, 3, 1, 4];
+export default function fillData(type, randomize = false) {
+	let arrivalData = [];
+	let burstData = [];
+	let priorityData = [];
+
+	arrivalData = [0, 5, 12, 2, 9];
+	burstData = [11, 28, 2, 10, 16];
+	priorityData = [2, 0, 3, 1, 4];
+
+	if (randomize) {
+		arrivalData = arrivalData.map(() => Math.floor(Math.random() * 20));
+		burstData = arrivalData.map(() => Math.floor(Math.random() * 20));
+		priorityData = new Array(5).fill(Math.floor(Math.random() * 10));
+	}
 
 	var arrivalInputs = document.querySelectorAll(".arrivalInput");
 	var burstInputs = document.querySelectorAll(".burstInput");

@@ -1,7 +1,6 @@
 import logProcessStatus from "./log.js";
 import createTable from "../../createTable.js";
 import createChart from "../../createChart.js";
-
 const rr = (processes, options) => {
 	var sortable = [];
 	for (let process in processes) {
@@ -43,11 +42,33 @@ const rr = (processes, options) => {
 			process[1].waitingTime = process[1].turnAroundTime - process[1].burstTime;
 			process[1].pid = process[0][1];
 			process[1].order = index + 1;
+
+			// let color = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+			let colors = ["#36a2eb", "#ff6384", "#ff9f40", "#4bc0c0", "#9966ff", "#ffcd56"];
+
+			process[1].preEmptData.startTime.map((time, i) => {
+				chartData.push({
+					label: process[0],
+					data: [
+						{
+							x: time,
+							// y: process[1].pid,
+							y: 0,
+						},
+						{
+							x: process[1].preEmptData.endTime[i],
+							// y: process[1].pid,
+							y: 0,
+						},
+					],
+					backgroundColor: colors[index],
+					borderColor: colors[index],
+				});
+			});
 		});
 
-		console.log(chartData);
+		createChart(chartData, "Round Robin");
 
-		// createChart(chartData, "Round Robin");
 		createTable(
 			[...new Set(processedData)].sort((a, b) => a[1].pid - b[1].pid),
 			"Round Robin"

@@ -1,5 +1,5 @@
 export default function createChart(data, type) {
-	console.log(data);
+	// console.log(data);
 	document.getElementById("chartContainer").innerHTML = "";
 	document.getElementById("chartContainer").innerHTML = "<canvas id='myChart'></canvas>";
 	const ctx = document.getElementById("myChart");
@@ -37,7 +37,14 @@ export default function createChart(data, type) {
 					labels: {
 						generateLabels: function (chart) {
 							var data = chart.data;
-							return data.datasets.map((dataset) => {
+							let labels = [];
+
+							let unique = data.datasets.reduce((prev, curr) => {
+								!prev.some((item) => item.label === curr.label) && prev.push(curr);
+								return prev;
+							}, []);
+
+							return unique.map((dataset) => {
 								return {
 									text: dataset.label,
 									fillStyle: dataset.backgroundColor,
