@@ -13,8 +13,10 @@ export default function createTable(data, type) {
 		"End Time",
 		"Turn Around Time",
 		"Waiting Time",
+		"Response Time",
 	];
 	if (type !== "Priority") headerData.splice(3, 1);
+	if (type !== "Round Robin") headerData.pop();
 
 	headerData.forEach((head) => {
 		const cell = document.createElement("th");
@@ -24,13 +26,23 @@ export default function createTable(data, type) {
 	});
 	const body = table.createTBody();
 
-	const keys = ["arrivalTime", "burstTime", "priority", "startTime", "endTime", "turnAroundTime", "waitingTime"];
+	const keys = [
+		"arrivalTime",
+		"burstTime",
+		"priority",
+		"startTime",
+		"endTime",
+		"turnAroundTime",
+		"waitingTime",
+		"responseTime",
+	];
 	data.forEach((process) => {
 		const row = body.insertRow();
 		const cell = row.insertCell();
 		cell.innerText = process[0];
 		keys.map((key) => {
 			if (type != "Priority" && key == "priority") return;
+			if (type != "Round Robin" && key == "responseTime") return;
 			const cell = row.insertCell();
 			cell.innerText = process[1][key];
 		});
@@ -51,6 +63,14 @@ export default function createTable(data, type) {
 		data.reduce((acc, curr) => acc + curr[1].waitingTime, 0) / data.length
 	}</b>`;
 	averageContainer.appendChild(averageWaiting);
+
+	if (type == "Round Robin") {
+		const averageResponse = document.createElement("p");
+		averageResponse.innerHTML = `Average Response Time: <b>${
+			data.reduce((acc, curr) => acc + curr[1].responseTime, 0) / data.length
+		}</b>`;
+		averageContainer.appendChild(averageResponse);
+	}
 
 	document.querySelector(".sub_table").innerHTML = `<h5>${type} Scheduling Table</h5>`;
 }

@@ -3,6 +3,7 @@ import sjf from "./algorithms/non-pre-emptive/sjf.js";
 import priority from "./algorithms/non-pre-emptive/priority.js";
 
 import rr from "./algorithms/pre-emptive/rr.js";
+import priorityPE from "./algorithms/pre-emptive/priority-pe.js";
 
 import createChart from "./createChart.js";
 import createTable from "./createTable.js";
@@ -40,10 +41,21 @@ document.querySelector("#type").addEventListener("change", (e) => {
 
 //* Updates the form table based on the type of algorithm selected
 function updateFormTable(type) {
-	console.log("updated");
 	document.querySelectorAll(".toBeRemoved").forEach((elem) => {
 		elem.remove();
 	});
+
+	let preEmptionCheck = `<div className="toBeRemoved">
+								<form action="#">
+									<p>
+										<label>
+											<input type="checkbox" id="pre-emption" checked />
+											<span>Pre-emption</span>
+										</label>
+									</p>
+								</form>
+							</div>`;
+
 	switch (type) {
 		case "Priority":
 			var processRows = document.querySelectorAll(".process");
@@ -61,6 +73,8 @@ function updateFormTable(type) {
 					</label>
 				</div>
 			</div>`;
+
+			optionsContainer.innerHTML += preEmptionCheck;
 
 			let tableHead = document.querySelector("#table_head_row");
 			let priorityHead = document.createElement("th");
@@ -91,6 +105,8 @@ function updateFormTable(type) {
 						<label for="quantum">Quantum</label>
 					</div>
 			`;
+			var logContainer = document.querySelector("#log-container");
+			logContainer.innerHTML = `<div class="toBeRemoved log"></div>`;
 			break;
 		default:
 			break;
@@ -134,6 +150,11 @@ submit.addEventListener("click", () => {
 		let options = {
 			reverse: document.getElementById("reverse-switch").checked,
 		};
+
+		if (document.getElementById("pre-emption").checked) {
+			priorityPE(processes, options);
+			return;
+		}
 
 		const { chartData, processedData, type } = priority(processes, options);
 		createChart(chartData, type);

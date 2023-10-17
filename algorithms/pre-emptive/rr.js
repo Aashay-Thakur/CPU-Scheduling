@@ -21,16 +21,10 @@ const rr = (processes, options) => {
 	var operationalArray = sortable;
 
 	function processArrived(time) {
-		let returnArray = [];
-		operationalArray.map((process, i) => {
-			if (process[1].arrivalTime == time) {
-				returnArray.push(process);
-				operationalArray.splice(i, 1);
-				logProcessStatus(process[0], time, "arrived");
-				if (operationalArray.length == 0) logProcessStatus("CPU", time, "allArrived");
-			}
-		});
-		returnArray.sort((a, b) => a[1].arrivalTime - b[1].arrivalTime);
+		let returnArray = operationalArray.filter((process) => process[1].arrivalTime === time);
+		operationalArray = operationalArray.filter((process) => process[1].arrivalTime !== time);
+		returnArray.sort((a, b) => a[0] - b[0]);
+		returnArray.map((process) => logProcessStatus(process[0], time, "arrived"));
 		return returnArray;
 	}
 
@@ -42,6 +36,7 @@ const rr = (processes, options) => {
 			process[1].waitingTime = process[1].turnAroundTime - process[1].burstTime;
 			process[1].pid = process[0][1];
 			process[1].order = index + 1;
+			process[1].responseTime = process[1].startTime - process[1].arrivalTime;
 
 			// let color = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
 			let colors = ["#36a2eb", "#ff6384", "#ff9f40", "#4bc0c0", "#9966ff", "#ffcd56"];
@@ -79,7 +74,6 @@ const rr = (processes, options) => {
 	while (true && --FAILSAFE > 0) {
 		let arrivedPorcesses = processArrived(current_time);
 		if (arrivedPorcesses.length !== 0) {
-			logProcessStatus(arrivedPorcesses[0][0], current_time, "arrived");
 			readyQueue.push(...arrivedPorcesses);
 		}
 		if (readyQueue.length !== 0) {

@@ -1,23 +1,26 @@
 export default function logProcessStatus(processId, time, status) {
-	return;
+	// return;
+
+	var log = document.querySelector(".log");
+
 	switch (status) {
 		case "arrived":
-			console.log(`%cProcess ${processId} arrived at ${time}`, "color: red");
+			log.innerHTML += `<p class="red-text">Process ${processId} arrived at ${time}</p>`;
 			break;
 		case "started":
-			console.log(`%cProcess ${processId} started at ${time}`, "color: violet");
+			log.innerHTML += `<p class="purple-text">Process ${processId} started at ${time}</p>`;
 			break;
 		case "running":
-			console.log(`Process ${processId} is running at ${time}`);
+			log.innerHTML += `<p>Process ${processId} running at ${time}</p>`;
 			break;
 		case "preempted":
-			console.log(`%cProcess ${processId} is preempted at ${time}`, "color: blue");
+			log.innerHTML += `<p class="blue-text">Process ${processId} preempted at ${time}</p>`;
 			break;
 		case "completed":
-			console.log(`%cProcess ${processId} is completed at ${time}`, "color: green");
+			log.innerHTML += `<p class="green-text">Process ${processId} completed at ${time}</p>`;
 			break;
 		case "idle":
-			console.log(`CPU is idle at ${time}`);
+			log.innerHTML += `<p>CPU is idle at ${time}</p>`;
 			break;
 		default:
 			break;
