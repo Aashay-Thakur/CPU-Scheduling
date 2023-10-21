@@ -25,6 +25,7 @@ const rr = (processes, options) => {
 		operationalArray = operationalArray.filter((process) => process[1].arrivalTime !== time);
 		returnArray.sort((a, b) => a[0] - b[0]);
 		returnArray.map((process) => logProcessStatus(process[0], time, "arrived"));
+		if (operationalArray.length === 0) logProcessStatus("CPU", time, "allArrived");
 		return returnArray;
 	}
 
@@ -72,9 +73,11 @@ const rr = (processes, options) => {
 
 	var FAILSAFE = 1000;
 	while (true && --FAILSAFE > 0) {
-		let arrivedPorcesses = processArrived(current_time);
-		if (arrivedPorcesses.length !== 0) {
-			readyQueue.push(...arrivedPorcesses);
+		if (operationalArray.length !== 0) {
+			let arrivedPorcesses = processArrived(current_time);
+			if (arrivedPorcesses.length !== 0) {
+				readyQueue.push(...arrivedPorcesses);
+			}
 		}
 		if (readyQueue.length !== 0) {
 			let currentProcess = readyQueue.shift();
@@ -82,8 +85,10 @@ const rr = (processes, options) => {
 			currentProcess[1].preEmptData.startTime.push(current_time);
 			logProcessStatus(currentProcess[0], current_time, "started");
 			while (currentProcess[1].operationalBurstTime >= 0 && quantumTime >= 0 && --FAILSAFE > 0) {
-				let arrivedPorcesses = processArrived(current_time);
-				arrivedPorcesses.length !== 0 && readyQueue.push(...arrivedPorcesses);
+				if (operationalArray.length !== 0) {
+					let arrivedPorcesses = processArrived(current_time);
+					arrivedPorcesses.length !== 0 && readyQueue.push(...arrivedPorcesses);
+				}
 				if (currentProcess[1].operationalBurstTime == 0) {
 					currentProcess[1].preEmptData.endTime.push(current_time);
 					processedData.push(currentProcess);

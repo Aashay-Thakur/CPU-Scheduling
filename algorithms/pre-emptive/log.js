@@ -22,6 +22,9 @@ export default function logProcessStatus(processId, time, status) {
 		case "idle":
 			log.innerHTML += `<p>CPU is idle at ${time}</p>`;
 			break;
+		case "allArrived":
+			log.innerHTML += `<p class="red-text">All processes arrived at ${time}</p>`;
+			break;
 		default:
 			break;
 	}
