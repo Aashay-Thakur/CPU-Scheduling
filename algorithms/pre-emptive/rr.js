@@ -72,6 +72,7 @@ const rr = (processes, options) => {
 	}
 
 	var FAILSAFE = 1000;
+	document.querySelector(".log").innerHTML = "";
 	while (true && --FAILSAFE > 0) {
 		if (operationalArray.length !== 0) {
 			let arrivedPorcesses = processArrived(current_time);

@@ -45,16 +45,22 @@ function updateFormTable(type) {
 		elem.remove();
 	});
 
-	let preEmptionCheck = `<div className="toBeRemoved">
+	var preEmptionCheck = `<div className="toBeRemoved">
 								<form action="#">
 									<p>
 										<label>
-											<input type="checkbox" id="pre-emption" checked />
+											<input type="checkbox" id="pre-emption" onchange="document.querySelector('.quantumInputContainer').classList.toggle('show')" checked />
 											<span>Pre-emption</span>
 										</label>
 									</p>
 								</form>
 							</div>`;
+
+	var quantumInput = `<div class="input-field col s12 l12 m12 toBeRemoved quantumInputContainer show">
+							<input type="number" value="10" id="quantum" name="quantum" min="1" />
+							<label for="quantum">Quantum</label>
+						</div>
+						`;
 
 	switch (type) {
 		case "Priority":
@@ -75,6 +81,7 @@ function updateFormTable(type) {
 			</div>`;
 
 			optionsContainer.innerHTML += preEmptionCheck;
+			optionsContainer.innerHTML += quantumInput;
 
 			let tableHead = document.querySelector("#table_head_row");
 			let priorityHead = document.createElement("th");
@@ -96,17 +103,20 @@ function updateFormTable(type) {
 				priorityTableData.classList.add("toBeRemoved");
 				elem.appendChild(priorityTableData);
 			});
+
+			if (document.querySelector("#pre-emption").checked) {
+				console.log("pre-emption checked");
+				var logContainer = document.querySelector("#log-container");
+				logContainer.innerHTML = `<div class="toBeRemoved log"></div>`;
+			}
+
 			break;
 		case "RR":
 			var optionsContainer = document.querySelector("#options-container");
-			optionsContainer.innerHTML = `
-					<div class="input-field col s12 l12 m12 toBeRemoved">
-						<input type="number" value="10" id="quantum" name="quantum" min="1" />
-						<label for="quantum">Quantum</label>
-					</div>
-			`;
+			optionsContainer.innerHTML = quantumInput;
 			var logContainer = document.querySelector("#log-container");
 			logContainer.innerHTML = `<div class="toBeRemoved log"></div>`;
+
 			break;
 		default:
 			break;
@@ -117,9 +127,10 @@ function updateFormTable(type) {
 submit.addEventListener("click", () => {
 	let type = document.querySelector("#type").value;
 
-	if (type === "RR") {
+	if (type === "RR" || type === "Priority") {
 		if (document.querySelector("#quantum").value === "" || document.querySelector("#quantum").value === "0") {
 			document.querySelector("#quantum").value = 10;
+			M.toast({ html: "Quantum cannot be 0<br/>Setting to default value of 10" });
 		}
 	}
 	//* Fetch data from form, and structure it to pass on to the appropriate algorithm
@@ -149,11 +160,14 @@ submit.addEventListener("click", () => {
 	if (type === "Priority") {
 		let options = {
 			reverse: document.getElementById("reverse-switch").checked,
+			quantum: Number(document.querySelector("#quantum").value),
 		};
 
 		if (document.getElementById("pre-emption").checked) {
 			priorityPE(processes, options);
 			return;
+		} else {
+			document.querySelector(".log").innerHTML = "";
 		}
 
 		const { chartData, processedData, type } = priority(processes, options);

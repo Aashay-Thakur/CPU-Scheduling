@@ -4,14 +4,13 @@ export default function fillData(type, randomize = false) {
 	let priorityData = [];
 
 	arrivalData = [0, 5, 12, 2, 9];
-	// arrivalData.fill(0);
 	burstData = [11, 28, 2, 10, 16];
 	priorityData = [2, 0, 3, 1, 4];
 
 	if (randomize) {
 		arrivalData = arrivalData.map(() => Math.floor(Math.random() * 20));
-		burstData = arrivalData.map(() => Math.floor(Math.random() * 20));
-		priorityData = new Array(5).fill(Math.floor(Math.random() * 10));
+		burstData = burstData.map(() => Math.floor(Math.random() * 20));
+		priorityData = priorityData.map(() => Math.floor(Math.random() * 10));
 	}
 
 	var arrivalInputs = document.querySelectorAll(".arrivalInput");

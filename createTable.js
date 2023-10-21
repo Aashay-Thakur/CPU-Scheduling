@@ -1,4 +1,4 @@
-export default function createTable(data, type) {
+export default function createTable(data, type, isPreemption = false) {
 	const tableContainer = document.getElementById("processed-data");
 	const table = document.createElement("table");
 	table.classList.add("striped", "centered", "responsive-table");
@@ -72,5 +72,7 @@ export default function createTable(data, type) {
 		averageContainer.appendChild(averageResponse);
 	}
 
-	document.querySelector(".sub_table").innerHTML = `<h5>${type} Scheduling Table</h5>`;
+	document.querySelector(".sub_table").innerHTML = `<h5>${
+		isPreemption ? "(Pre-Emptive) " : ""
+	}${type} Scheduling Table</h5>`;
 }
