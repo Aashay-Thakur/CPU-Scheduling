@@ -17,17 +17,20 @@ export default function fillData(type, randomize = false) {
 	var burstInputs = document.querySelectorAll(".burstInput");
 
 	arrivalInputs.forEach((elem, index) => {
-		elem.value = arrivalData[index];
+		if (index > arrivalData.length - 1) elem.value = Math.floor(Math.random() * 20);
+		else elem.value = arrivalData[index];
 	});
 
 	burstInputs.forEach((elem, index) => {
-		elem.value = burstData[index];
+		if (index > arrivalData.length - 1) elem.value = Math.ceil(Math.random() * 20);
+		else elem.value = burstData[index];
 	});
 
 	if (type === "Priority") {
 		var priorityInputs = document.querySelectorAll(".priorityInput");
 		priorityInputs.forEach((elem, index) => {
-			elem.value = priorityData[index];
+			if (index > arrivalData.length - 1) elem.value = Math.ceil(Math.random() * 20);
+			else elem.value = priorityData[index];
 		});
 	}
 }

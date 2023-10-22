@@ -17,9 +17,67 @@ document.addEventListener("DOMContentLoaded", function () {
 	var selectInstances = M.FormSelect.init(selectElems, {});
 
 	let type = document.querySelector("#type").value;
+
+	addProcesses(5, type);
+
+	document.getElementById("numberOfProcesses").addEventListener("change", (e) => {
+		if (e.target.value < 5) {
+			e.target.value = 5;
+			M.toast({ html: "Minimum number of processes is 5" });
+			addProcesses(e.target.value, type);
+		} else if (e.target.value > 10) {
+			e.target.value = 10;
+			M.toast({ html: "Maximum number of processes is 10" });
+			addProcesses(e.target.value, type);
+		} else {
+			addProcesses(e.target.value, type);
+		}
+	});
+
+	document.querySelector(".addProcess").addEventListener("click", () => {
+		let numberOfProcessInput = document.getElementById("numberOfProcesses");
+		if (numberOfProcessInput.value < 10) {
+			numberOfProcessInput.value++;
+			numberOfProcessInput.dispatchEvent(new Event("change", { bubbles: true }));
+		} else {
+			M.toast({ html: "Maximum number of processes is 10" });
+		}
+	});
+});
+
+function addProcesses(totalNumberOfProcesses, type) {
+	document.querySelector(".table-body").innerHTML = "";
+	for (let i = 1; i <= totalNumberOfProcesses; i++) {
+		let row = `<tr id="p${i}" class="process">
+					<td>P${i}</td>
+					<td>
+						<input
+							type="number"
+							data-name="arrivalTime"
+							name="p${i}arrival"
+							class="arrivalInput"
+							id="p${i}arrival"
+							min="0"
+							max="100"
+						/>
+					</td>
+					<td>
+						<input
+							type="number"
+							data-name="burstTime"
+							name="p${i}burst"
+							id="p${i}burst"
+							class="burstInput"
+							min="0"
+							max="100"
+						/>
+					</td>
+				</tr>`;
+		document.querySelector(".table-body").innerHTML += row;
+	}
 	updateFormTable(type);
 	fillData(type);
-});
+}
 
 document.querySelector(".reset").addEventListener("click", () => {
 	document.querySelectorAll("input").forEach((elem) => {
@@ -45,7 +103,7 @@ function updateFormTable(type) {
 		elem.remove();
 	});
 
-	var preEmptionCheck = `<div className="toBeRemoved">
+	var preEmptionCheck = `<div class="toBeRemoved">
 								<form action="#">
 									<p>
 										<label>

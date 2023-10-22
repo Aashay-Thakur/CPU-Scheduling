@@ -35,7 +35,7 @@ const rr = (processes, options) => {
 			process[1].endTime = process[1].preEmptData.endTime[process[1].preEmptData.endTime.length - 1];
 			process[1].turnAroundTime = process[1].endTime - process[1].arrivalTime;
 			process[1].waitingTime = process[1].turnAroundTime - process[1].burstTime;
-			process[1].pid = process[0][1];
+			process[1].pid = process[0].slice(1);
 			process[1].order = index + 1;
 			process[1].responseTime = process[1].startTime - process[1].arrivalTime;
 

@@ -9,50 +9,14 @@
 			rel="stylesheet"
 			href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
 		/>
-		<!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" /> -->
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 		<!-- Compiled and minified JavaScript -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
-		<style>
-			html {
-				font-family: sans-serif;
-				overflow-x: auto;
-			}
-			body {
-				overflow-x: hidden;
-			}
-			.low {
-				margin-top: 5rem;
-			}
-			.btn {
-				margin-top: 3rem;
-			}
-			[type="number"] {
-				text-align: center;
-			}
-			#chartContainer {
-				position: relative;
-				overflow-x: auto;
-			}
-			#log-container {
-				max-height: 30ch;
-				overflow-y: auto;
-			}
-			.quantumInputContainer {
-				transform: scaleY(0);
-				transform-origin: top;
-				transition: all 0.1s ease-in-out;
-			}
-			.quantumInputContainer.show {
-				transform: scaleY(1);
-			}
-			.options-container {
-				height: "min-content";
-			}
-		</style>
+		<link rel="stylesheet" href="style.css" />
 	</head>
 	<body>
-		<div class="container">
+		<div class="mainContainer container">
 			<div class="row"><h1 id="head">CPU Scheduling</h1></div>
 			<div class="row">
 				<div class="input-field col s12 l3 m3">
@@ -66,146 +30,65 @@
 				</div>
 			</div>
 			<div class="row">
+				<div class="input-field col s6 m3 l3">
+					<input
+						placeholder="Placeholder"
+						id="numberOfProcesses"
+						type="number"
+						class="validate"
+						min="5"
+						max="10"
+						value="5"
+					/>
+					<label for="numberOfProcesses">Number of Processes</label>
+				</div>
+			</div>
+			<div class="row">
 				<div class="col" id="options-container"></div>
 			</div>
 			<div class="row">
-				<div class="col s12 m3 l3">
-					<table class="centered">
-						<thead>
-							<tr id="table_head_row">
-								<th>Process ID</th>
-								<th>Arrival Time</th>
-								<th>Burst Time</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr id="p1" class="process">
-								<td>P1</td>
-								<td>
-									<input
-										type="number"
-										data-name="arrivalTime"
-										name="p1arrival"
-										class="arrivalInput"
-										id="p1arrival"
-										min="0"
-										max="100"
-									/>
-								</td>
-								<td>
-									<input
-										type="number"
-										data-name="burstTime"
-										name="p1burst"
-										id="p1burst"
-										class="burstInput"
-										min="0"
-										max="100"
-									/>
-								</td>
-							</tr>
-							<tr id="p2" class="process">
-								<td>P2</td>
-								<td>
-									<input
-										type="number"
-										data-name="arrivalTime"
-										name="p2arrival"
-										class="arrivalInput"
-										id="p2arrival"
-										min="0"
-										max="100"
-									/>
-								</td>
-								<td>
-									<input
-										type="number"
-										data-name="burstTime"
-										name="p2burst"
-										id="p2burst"
-										class="burstInput"
-										min="0"
-										max="100"
-									/>
-								</td>
-							</tr>
-							<tr id="p3" class="process">
-								<td>P3</td>
-								<td>
-									<input
-										type="number"
-										data-name="arrivalTime"
-										name="p3arrival"
-										class="arrivalInput"
-										id="p3arrival"
-										min="0"
-										max="100"
-									/>
-								</td>
-								<td>
-									<input
-										type="number"
-										data-name="burstTime"
-										name="p3burst"
-										id="p3burst"
-										class="burstInput"
-										min="0"
-										max="100"
-									/>
-								</td>
-							</tr>
-							<tr id="p4" class="process">
-								<td>P4</td>
-								<td>
-									<input
-										type="number"
-										data-name="arrivalTime"
-										name="p4arrival"
-										class="arrivalInput"
-										id="p4arrival"
-										min="0"
-										max="100"
-									/>
-								</td>
-								<td>
-									<input
-										type="number"
-										data-name="burstTime"
-										name="p4burst"
-										id="p4burst"
-										class="burstInput"
-										min="0"
-										max="100"
-									/>
-								</td>
-							</tr>
-							<tr id="p5" class="process">
-								<td>P5</td>
-								<td>
-									<input
-										type="number"
-										data-name="arrivalTime"
-										name="p5arrival"
-										class="arrivalInput"
-										id="p5arrival"
-										min="0"
-										max="100"
-									/>
-								</td>
-								<td>
-									<input
-										type="number"
-										data-name="burstTime"
-										name="p5burst"
-										id="p5burst"
-										class="burstInput"
-										min="0"
-										max="100"
-									/>
-								</td>
-							</tr>
-						</tbody>
-					</table>
+				<div class="col s12 m4 l4">
+					<div>
+						<table class="centered">
+							<thead>
+								<tr id="table_head_row">
+									<th>Process ID</th>
+									<th>Arrival Time</th>
+									<th>Burst Time</th>
+								</tr>
+							</thead>
+							<tbody class="table-body">
+								<!-- <tr id="p1" class="process">
+									<td>P1</td>
+									<td>
+										<input
+											type="number"
+											data-name="arrivalTime"
+											name="p1arrival"
+											class="arrivalInput"
+											id="p1arrival"
+											min="0"
+											max="100"
+										/>
+									</td>
+									<td>
+										<input
+											type="number"
+											data-name="burstTime"
+											name="p1burst"
+											id="p1burst"
+											class="burstInput"
+											min="0"
+											max="100"
+										/>
+									</td>
+								</tr> -->
+							</tbody>
+						</table>
+						<div class="addProcess">
+							<i class="material-icons">add_circle_outline</i>
+						</div>
+					</div>
 					<div class="row">
 						<div class="col s12 m12 l6">
 							<a class="waves-effect waves-light btn randomize" style="width: 100%">Randomize</a>
@@ -220,13 +103,12 @@
 						</div>
 					</div>
 				</div>
-				<div class="col s12 m8 l8 offset-l1 offset-m1">
+				<div class="col s12 m7 l7 offset-l1 offset-m1">
 					<div class="row sub_table"></div>
 					<div class="row" id="processed-data"></div>
 					<div class="row" id="average"></div>
 				</div>
 			</div>
-
 			<div class="row low">
 				<div class="row sub_chart"></div>
 				<div class="row" id="chartContainer">

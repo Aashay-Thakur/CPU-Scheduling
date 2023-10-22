@@ -51,25 +51,28 @@ export default function createTable(data, type, isPreemption = false) {
 	tableContainer.appendChild(table);
 
 	const averageContainer = document.getElementById("average");
-	const averageTurnAround = document.createElement("p");
-	averageTurnAround.innerHTML = `Average Turn Around Time: <b>${
-		data.reduce((acc, curr) => acc + curr[1].turnAroundTime, 0) / data.length
+	const averageTurnAroundElem = document.createElement("p");
+	var averageTurnAroundTime = data.reduce((acc, curr) => acc + curr[1].turnAroundTime, 0) / data.length;
+	averageTurnAroundElem.innerHTML = `Average Turn Around Time: <b>${
+		Math.round((averageTurnAroundTime + Number.EPSILON) * 100) / 100
 	}</b>`;
 	averageContainer.innerHTML = "";
-	averageContainer.appendChild(averageTurnAround);
+	averageContainer.appendChild(averageTurnAroundElem);
 
-	const averageWaiting = document.createElement("p");
-	averageWaiting.innerHTML = `Average Waiting Time: <b>${
-		data.reduce((acc, curr) => acc + curr[1].waitingTime, 0) / data.length
+	const averageWaitingElem = document.createElement("p");
+	var averageWaitingTime = data.reduce((acc, curr) => acc + curr[1].waitingTime, 0) / data.length;
+	averageWaitingElem.innerHTML = `Average Waiting Time: <b>${
+		Math.round((averageWaitingTime + Number.EPSILON) * 100) / 100
 	}</b>`;
-	averageContainer.appendChild(averageWaiting);
+	averageContainer.appendChild(averageWaitingElem);
 
 	if (type == "Round Robin") {
-		const averageResponse = document.createElement("p");
-		averageResponse.innerHTML = `Average Response Time: <b>${
-			data.reduce((acc, curr) => acc + curr[1].responseTime, 0) / data.length
+		const averageResponseElem = document.createElement("p");
+		var averageResponseTime = data.reduce((acc, curr) => acc + curr[1].responseTime, 0) / data.length;
+		averageResponseElem.innerHTML = `Average Response Time: <b>${
+			Math.round((averageResponseTime + Number.EPSILON) * 100) / 100
 		}</b>`;
-		averageContainer.appendChild(averageResponse);
+		averageContainer.appendChild(averageResponseElem);
 	}
 
 	document.querySelector(".sub_table").innerHTML = `<h5>${

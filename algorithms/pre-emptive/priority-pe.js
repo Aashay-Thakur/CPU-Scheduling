@@ -48,12 +48,23 @@ export default function priorityPE(processes, options) {
 			process[1].endTime = process[1].preEmptData.endTime[process[1].preEmptData.endTime.length - 1];
 			process[1].turnAroundTime = process[1].endTime - process[1].arrivalTime;
 			process[1].waitingTime = process[1].turnAroundTime - process[1].burstTime;
-			process[1].pid = process[0][1];
+			process[1].pid = process[0].slice(1);
 			process[1].order = index + 1;
 			process[1].responseTime = process[1].startTime - process[1].arrivalTime;
 
 			// let color = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
-			let colors = ["#36a2eb", "#ff6384", "#ff9f40", "#4bc0c0", "#9966ff", "#ffcd56"];
+			let colors = [
+				"#36a2eb",
+				"#ff6384",
+				"#ff9f40",
+				"#4bc0c0",
+				"#9966ff",
+				"#ffcd56",
+				"#c9cbcf",
+				"#b00004",
+				"#2d5a6a",
+				"#65af50",
+			];
 
 			process[1].preEmptData.startTime.map((time, i) => {
 				chartData.push({
