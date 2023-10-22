@@ -29,7 +29,7 @@ export default function fillData(type, randomize = false) {
 	if (type === "Priority") {
 		var priorityInputs = document.querySelectorAll(".priorityInput");
 		priorityInputs.forEach((elem, index) => {
-			if (index > arrivalData.length - 1) elem.value = Math.ceil(Math.random() * 20);
+			if (index > arrivalData.length - 1) elem.value = Math.ceil(Math.random() * 10);
 			else elem.value = priorityData[index];
 		});
 	}
