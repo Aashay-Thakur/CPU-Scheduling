@@ -43,6 +43,22 @@ document.addEventListener("DOMContentLoaded", function () {
 			M.toast({ html: "Maximum number of processes is 10" });
 		}
 	});
+
+	document.getElementById("options-container").addEventListener("click", (e) => {
+		if (e.target && e.target.matches("input#pre-emption")) {
+			if (document.querySelector(".quantumInputContainer"))
+				document.querySelector(".quantumInputContainer").classList.toggle("hide");
+			if (e.target.checked) {
+				document.getElementById("log-container").innerHTML = `<div class="toBeRemoved log"></div>`;
+			} else {
+				if (document.querySelector(".log")) document.querySelector(".log").innerHTML = "";
+			}
+			submit.dispatchEvent(new Event("click", { bubbles: true }));
+		}
+		if (e.target && e.target.matches("input#reverse-switch")) {
+			submit.dispatchEvent(new Event("click", { bubbles: true }));
+		}
+	});
 });
 
 function addProcesses(totalNumberOfProcesses, type) {
@@ -107,24 +123,24 @@ function updateFormTable(type) {
 								<form action="#">
 									<p>
 										<label>
-											<input type="checkbox" id="pre-emption" onchange="document.querySelector('.quantumInputContainer').classList.toggle('show')" checked />
+											<input type="checkbox" id="pre-emption" />
 											<span>Pre-emption</span>
 										</label>
 									</p>
 								</form>
 							</div>`;
 
-	var quantumInput = `<div class="input-field col s12 l12 m12 toBeRemoved quantumInputContainer show">
+	var quantumInput = `<div class="input-field col s12 l12 m12 toBeRemoved quantumInputContainer hide">
 							<input type="number" value="10" id="quantum" name="quantum" min="1" />
 							<label for="quantum">Quantum</label>
 						</div>
 						`;
 
+	var optionsContainer = document.querySelector("#options-container");
 	switch (type) {
 		case "Priority":
 			var processRows = document.querySelectorAll(".process");
 
-			var optionsContainer = document.querySelector("#options-container");
 			optionsContainer.innerHTML = `
 			<div class="toBeRemoved">
 				Reverse Priority
@@ -162,20 +178,12 @@ function updateFormTable(type) {
 				elem.appendChild(priorityTableData);
 			});
 
-			if (document.querySelector("#pre-emption").checked) {
-				console.log("pre-emption checked");
-				var logContainer = document.querySelector("#log-container");
-				logContainer.innerHTML = `<div class="toBeRemoved log"></div>`;
-			}
-
 			break;
 		case "RR":
-			var optionsContainer = document.querySelector("#options-container");
 			optionsContainer.innerHTML = quantumInput;
-			var logContainer = document.querySelector("#log-container");
-			logContainer.innerHTML = `<div class="toBeRemoved log"></div>`;
-
 			break;
+		case "SJF":
+			optionsContainer.innerHTML += preEmptionCheck;
 		default:
 			break;
 	}
@@ -224,8 +232,6 @@ submit.addEventListener("click", () => {
 		if (document.getElementById("pre-emption").checked) {
 			priorityPE(processes, options);
 			return;
-		} else {
-			document.querySelector(".log").innerHTML = "";
 		}
 
 		const { chartData, processedData, type } = priority(processes, options);
