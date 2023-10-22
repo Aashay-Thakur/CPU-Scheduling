@@ -4,6 +4,7 @@ import priority from "./algorithms/non-pre-emptive/priority.js";
 
 import rr from "./algorithms/pre-emptive/rr.js";
 import priorityPE from "./algorithms/pre-emptive/priority-pe.js";
+import srtf from "./algorithms/pre-emptive/srtf.js";
 
 import createChart from "./createChart.js";
 import createTable from "./createTable.js";
@@ -183,7 +184,7 @@ function updateFormTable(type) {
 			optionsContainer.innerHTML = quantumInput;
 			break;
 		case "SJF":
-			optionsContainer.innerHTML += preEmptionCheck;
+			optionsContainer.innerHTML = preEmptionCheck;
 		default:
 			break;
 	}
@@ -215,13 +216,17 @@ submit.addEventListener("click", () => {
 
 	if (type === "FCFS") {
 		const { chartData, processedData, type } = fcfs(processes);
-		createChart(chartData, type);
+		createChart(chartData, "First Come, First Served (FCFS)");
 		createTable(processedData, type);
 	}
 	if (type === "SJF") {
-		const { chartData, processedData, type } = sjf(processes);
-		createChart(chartData, type);
-		createTable(processedData, type);
+		if (document.getElementById("pre-emption").checked) {
+			srtf(processes);
+		} else {
+			const { chartData, processedData, type } = sjf(processes);
+			createChart(chartData, type);
+			createTable(processedData, type);
+		}
 	}
 	if (type === "Priority") {
 		let options = {

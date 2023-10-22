@@ -75,6 +75,10 @@ export default function createTable(data, type, isPreemption = false) {
 		averageContainer.appendChild(averageResponseElem);
 	}
 
+	if (type == "SRTF") {
+		document.querySelector(".sub_table").innerHTML = `<h5>SRTF Scheduling Table</h5>`;
+		return;
+	}
 	document.querySelector(".sub_table").innerHTML = `<h5>${
 		isPreemption ? "(Pre-Emptive) " : ""
 	}${type} Scheduling Table</h5>`;

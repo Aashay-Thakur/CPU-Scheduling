@@ -63,7 +63,7 @@ const rr = (processes, options) => {
 			});
 		});
 
-		createChart(chartData, "Round Robin");
+		createChart(chartData, "Round Robin (RR)");
 
 		createTable(
 			[...new Set(processedData)].sort((a, b) => a[1].pid - b[1].pid),

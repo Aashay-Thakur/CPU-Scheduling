@@ -19,7 +19,10 @@ export default function fcfs(data) {
 			process[1].endTime = process[1].burstTime + process[1].arrivalTime; //! The end time of the first process is the arrival time + burst time
 		} else {
 			//! The start time of current process = arrival time of current + end time of previous
-			process[1].startTime = process[1].arrivalTime <= sortable[index - 1][1].endTime ? sortable[index - 1][1].endTime : process[1].arrivalTime;
+			process[1].startTime =
+				process[1].arrivalTime <= sortable[index - 1][1].endTime
+					? sortable[index - 1][1].endTime
+					: process[1].arrivalTime;
 			//! The end time of current process = start time of current + burst time of current
 			process[1].endTime = process[1].startTime + process[1].burstTime;
 		}
