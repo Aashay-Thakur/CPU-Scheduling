@@ -49,11 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		if (e.target && e.target.matches("input#pre-emption")) {
 			if (document.querySelector(".quantumInputContainer"))
 				document.querySelector(".quantumInputContainer").classList.toggle("hide");
-			if (e.target.checked) {
-				document.getElementById("log-container").innerHTML = `<div class="toBeRemoved log"></div>`;
-			} else {
-				if (document.querySelector(".log")) document.querySelector(".log").innerHTML = "";
-			}
+			document.querySelector(".log").innerHTML = "";
 			submit.dispatchEvent(new Event("click", { bubbles: true }));
 		}
 		if (e.target && e.target.matches("input#reverse-switch")) {
@@ -119,6 +115,7 @@ function updateFormTable(type) {
 	document.querySelectorAll(".toBeRemoved").forEach((elem) => {
 		elem.remove();
 	});
+	document.querySelector(".log").innerHTML = "";
 
 	var preEmptionCheck = `<div class="toBeRemoved">
 								<form action="#">
