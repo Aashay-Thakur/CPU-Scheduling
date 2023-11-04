@@ -128,7 +128,7 @@ function updateFormTable(type) {
 								</form>
 							</div>`;
 
-	var quantumInput = `<div class="input-field col s12 l12 m12 toBeRemoved quantumInputContainer hide">
+	var quantumInput = `<div class="input-field col s12 l12 m12 toBeRemoved quantumInputContainer hide" data->
 							<input type="number" value="10" id="quantum" name="quantum" min="1" />
 							<label for="quantum">Quantum</label>
 						</div>
@@ -153,7 +153,13 @@ function updateFormTable(type) {
 			</div>`;
 
 			optionsContainer.innerHTML += preEmptionCheck;
-			optionsContainer.innerHTML += quantumInput;
+			optionsContainer.innerHTML += quantumInput
+				.replace("hide", "tooltipped hide")
+				.replace(
+					"data-",
+					'data-position="right" data-tooltip="Round Robin will be used for processes with the same priority"'
+				);
+			M.Tooltip.init(document.querySelectorAll(".tooltipped"), {});
 
 			let tableHead = document.querySelector("#table_head_row");
 			let priorityHead = document.createElement("th");
@@ -178,7 +184,8 @@ function updateFormTable(type) {
 
 			break;
 		case "RR":
-			optionsContainer.innerHTML = quantumInput;
+			optionsContainer.innerHTML = quantumInput.replace("hide", "");
+
 			break;
 		case "SJF":
 			optionsContainer.innerHTML = preEmptionCheck;
