@@ -57,6 +57,20 @@ document.addEventListener("DOMContentLoaded", function () {
 		}
 	});
 
+	document.getElementById("chart").addEventListener("click", (e) => {
+		if (e.target && e.target.matches("div.chart-bar")) {
+			let row = document.querySelector(`.p${e.target.dataset.pid}row`);
+			row.scrollIntoView({
+				behavior: "smooth",
+				block: "center",
+			});
+			row.classList.add("highlight-row");
+			setTimeout(() => {
+				row.classList.remove("highlight-row");
+			}, 1000);
+		}
+	});
+
 	submit.dispatchEvent(new Event("click", { bubbles: true }));
 });
 
@@ -226,17 +240,17 @@ submit.addEventListener("click", () => {
 	if (type === "FCFS") {
 		let result = fcfs(processes);
 		d3Chart(result, totalNumberOfProcesses, "FCFS");
-		createTable([...new Set(result)], "FCFS");
+		createTable([...new Set(result)], type);
 	}
 	if (type === "SJF") {
 		if (isPreEmptive) {
 			let result = srtf(processes);
 			d3Chart(result, totalNumberOfProcesses, "SRTF");
-			createTable([...new Set(result)], "SRTF");
+			createTable([...new Set(result)], type, "SRTF");
 		} else {
 			let result = sjf(processes);
 			d3Chart(result, totalNumberOfProcesses, "SJF");
-			createTable([...new Set(result)], "SJF");
+			createTable([...new Set(result)], type);
 		}
 	}
 	if (type === "Priority") {
@@ -246,18 +260,18 @@ submit.addEventListener("click", () => {
 		};
 		if (isPreEmptive) {
 			let result = priorityPE(processes, options);
-			d3Chart(result, totalNumberOfProcesses, "Priority (Pre-emptive)");
-			createTable([...new Set(result)], "Priority (Pre-emptive)");
+			d3Chart(result, totalNumberOfProcesses, "(Pre-emptive) Priority");
+			createTable([...new Set(result)], type, "(Pre-emptive) Priority");
 		} else {
 			let result = priority(processes, options);
 			d3Chart(result, totalNumberOfProcesses, "Priority");
-			createTable([...new Set(result)], "Priority");
+			createTable([...new Set(result)], type);
 		}
 	}
 	if (type == "RR") {
 		let option = { quantum: Number(document.querySelector("#quantum").value) };
 		let result = rr(processes, option);
 		d3Chart(result, totalNumberOfProcesses, "RR");
-		createTable([...new Set(result)], "RR");
+		createTable([...new Set(result)], type, "Round Robin");
 	}
 });

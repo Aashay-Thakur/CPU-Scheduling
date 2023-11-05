@@ -14,7 +14,6 @@ function processData(data) {
 }
 
 export default function priorityPE(processes, options) {
-	logProcessStatus("CPu", 0, "clear");
 	const isReverse = options.reverse;
 
 	var sortable = [];
@@ -35,14 +34,15 @@ export default function priorityPE(processes, options) {
 	var operationalArray = sortable;
 	var FAILSAFE = 200;
 	var quantum = options.quantum;
+	var logs = [];
 
 	// This function returns the processes that have arrived at the current time
 	function processArrived(time) {
 		let returnArray = operationalArray.filter((process) => process[1].arrivalTime === time);
 		operationalArray = operationalArray.filter((process) => process[1].arrivalTime !== time);
 		returnArray.sort((a, b) => a[0] - b[0]);
-		returnArray.map((process) => logProcessStatus(process[0], time, "arrived"));
-		if (operationalArray.length == 0) logProcessStatus("CPU", time, "allArrived");
+		returnArray.map((process) => logs.push([time, { process: process[0], status: "arrived" }]));
+		if (operationalArray.length == 0) logs.push([time, { status: "allArrived" }]);
 		return returnArray;
 	}
 
@@ -63,7 +63,7 @@ export default function priorityPE(processes, options) {
 			let currentProcess = readyQueue.shift();
 			currentProcess[1].preEmptData.startTime.push(current_time);
 			processedData.push(currentProcess);
-			logProcessStatus(currentProcess[0], current_time, "started");
+			logs.push([current_time, { process: currentProcess[0], status: "started" }]);
 
 			while (currentProcess[1].operationalBurstTime >= 0 && --FAILSAFE > 0) {
 				if (operationalArray.length !== 0) {
@@ -74,7 +74,7 @@ export default function priorityPE(processes, options) {
 				if (currentProcess[1].operationalBurstTime == 0) {
 					currentProcess[1].preEmptData.endTime.push(current_time);
 					currentProcess[1].preEmptData.executionTime.push(currentExecutionTime);
-					logProcessStatus(currentProcess[0], current_time, "completed");
+					logs.push([current_time, { process: currentProcess[0], status: "completed" }]);
 					break;
 				} else if (readyQueue.length !== 0) {
 					if (
@@ -84,13 +84,15 @@ export default function priorityPE(processes, options) {
 						currentProcess[1].preEmptData.endTime.push(current_time);
 						currentProcess[1].preEmptData.executionTime.push(currentExecutionTime);
 						readyQueue.push(currentProcess);
-						logProcessStatus(
-							currentProcess[0],
+						logs.push([
 							current_time,
-							"preempted",
-							currentExecutionTime,
-							`Higher priority Process ${readyQueue[0][0]} arrived`
-						);
+							{
+								process: currentProcess[0],
+								status: "preempted",
+								currentExecutionTime,
+								reason: `Higher priority Process ${readyQueue[0][0]} arrived`,
+							},
+						]);
 						break;
 					}
 					/*
@@ -116,29 +118,32 @@ export default function priorityPE(processes, options) {
 							currentProcess,
 							...readyQueue.filter((process) => process[1].priority != currentProcess[1].priority),
 						];
-						logProcessStatus(
-							currentProcess[0],
+						logs.push([
 							current_time,
-							"preempted",
-							currentExecutionTime,
-							"Quantum time up"
-						);
+							{
+								process: currentProcess[0],
+								status: "preempted",
+								currentExecutionTime,
+								reason: "Quantum time up",
+							},
+						]);
 						break;
 					}
 				}
 				currentExecutionTime++;
 				currentProcess[1].operationalBurstTime--;
 				current_time++;
-				logProcessStatus(currentProcess[0], current_time, "running", currentExecutionTime);
+				logs.push([current_time, { process: currentProcess[0], status: "running", currentExecutionTime }]);
 			}
 		} else {
 			if (operationalArray.length == 0) {
-				logProcessStatus("CPU", current_time, "allCompleted");
+				logs.push([current_time, { status: "allCompleted" }]);
 				break;
 			}
-			logProcessStatus("CPU", current_time, "idle");
+			logs.push([current_time, { status: "idle" }]);
 			current_time++;
 		}
 	}
+	logProcessStatus(logs);
 	return processData(processedData);
 }
