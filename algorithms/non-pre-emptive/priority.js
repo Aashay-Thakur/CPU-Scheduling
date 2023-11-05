@@ -23,7 +23,6 @@ export default function priority(data, options = { reverse: false }) {
 	}
 	sortable = sorted;
 
-	var chartData = [];
 	var processedData = [];
 
 	sortable.forEach((process, index) => {
@@ -31,7 +30,10 @@ export default function priority(data, options = { reverse: false }) {
 			process[1].startTime = process[1].arrivalTime;
 			process[1].endTime = process[1].burstTime + process[1].startTime;
 		} else {
-			process[1].startTime = process[1].arrivalTime <= sortable[index - 1][1].endTime ? sortable[index - 1][1].endTime : process[1].arrivalTime;
+			process[1].startTime =
+				process[1].arrivalTime <= sortable[index - 1][1].endTime
+					? sortable[index - 1][1].endTime
+					: process[1].arrivalTime;
 			process[1].endTime = process[1].startTime + process[1].burstTime;
 		}
 		process[1].turnAroundTime = process[1].endTime - process[1].arrivalTime;
@@ -40,23 +42,8 @@ export default function priority(data, options = { reverse: false }) {
 		process[1].order = index + 1;
 		process[1].pid = Number(process[0].slice(1));
 
-		chartData.push({
-			label: process[0],
-			data: [
-				{
-					x: process[1].startTime,
-					y: 0,
-				},
-				{
-					x: process[1].endTime,
-					y: 0,
-				},
-			],
-		});
-
 		processedData.push(process);
 	});
-	processedData.sort((a, b) => a[1].pid - b[1].pid);
 
-	return { chartData, processedData, type: "Priority" };
+	return processedData;
 }

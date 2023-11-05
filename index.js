@@ -6,7 +6,7 @@ import rr from "./algorithms/pre-emptive/rr.js";
 import priorityPE from "./algorithms/pre-emptive/priority-pe.js";
 import srtf from "./algorithms/pre-emptive/srtf.js";
 
-import createChart from "./createChart.js";
+import d3Chart from "./d3Chart.js";
 import createTable from "./createTable.js";
 
 import fillData from "./fillData.js";
@@ -56,6 +56,8 @@ document.addEventListener("DOMContentLoaded", function () {
 			submit.dispatchEvent(new Event("click", { bubbles: true }));
 		}
 	});
+
+	submit.dispatchEvent(new Event("click", { bubbles: true }));
 });
 
 function addProcesses(totalNumberOfProcesses, type) {
@@ -218,18 +220,23 @@ submit.addEventListener("click", () => {
 		processes[data[0].innerText] = temp;
 	});
 
+	let totalNumberOfProcesses = Object.keys(processes).length;
+	let isPreEmptive = document.getElementById("pre-emption")?.checked;
+
 	if (type === "FCFS") {
-		const { chartData, processedData, type } = fcfs(processes);
-		createChart(chartData, "First Come, First Served (FCFS)");
-		createTable(processedData, type);
+		let result = fcfs(processes);
+		d3Chart(result, totalNumberOfProcesses, "FCFS");
+		createTable([...new Set(result)], "FCFS");
 	}
 	if (type === "SJF") {
-		if (document.getElementById("pre-emption").checked) {
-			srtf(processes);
+		if (isPreEmptive) {
+			let result = srtf(processes);
+			d3Chart(result, totalNumberOfProcesses, "SRTF");
+			createTable([...new Set(result)], "SRTF");
 		} else {
-			const { chartData, processedData, type } = sjf(processes);
-			createChart(chartData, type);
-			createTable(processedData, type);
+			let result = sjf(processes);
+			d3Chart(result, totalNumberOfProcesses, "SJF");
+			createTable([...new Set(result)], "SJF");
 		}
 	}
 	if (type === "Priority") {
@@ -237,19 +244,20 @@ submit.addEventListener("click", () => {
 			reverse: document.getElementById("reverse-switch").checked,
 			quantum: Number(document.querySelector("#quantum").value),
 		};
-
-		if (document.getElementById("pre-emption").checked) {
-			priorityPE(processes, options);
-			return;
+		if (isPreEmptive) {
+			let result = priorityPE(processes, options);
+			d3Chart(result, totalNumberOfProcesses, "Priority (Pre-emptive)");
+			createTable([...new Set(result)], "Priority (Pre-emptive)");
+		} else {
+			let result = priority(processes, options);
+			d3Chart(result, totalNumberOfProcesses, "Priority");
+			createTable([...new Set(result)], "Priority");
 		}
-
-		const { chartData, processedData, type } = priority(processes, options);
-		createChart(chartData, type);
-		createTable(processedData, type);
 	}
 	if (type == "RR") {
 		let option = { quantum: Number(document.querySelector("#quantum").value) };
-		rr(processes, option);
-		//TODO: Let RR Handle createChart and createTable function calls, or redirect them here
+		let result = rr(processes, option);
+		d3Chart(result, totalNumberOfProcesses, "RR");
+		createTable([...new Set(result)], "RR");
 	}
 });

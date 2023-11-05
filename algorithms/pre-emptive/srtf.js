@@ -1,6 +1,18 @@
 import logProcessStatus from "./log.js";
-import createTable from "../../createTable.js";
-import createChart from "../../createChart.js";
+
+function processData(data) {
+	[...new Set(data)].map((process, index) => {
+		process[1].startTime = process[1].preEmptData.startTime[0];
+		process[1].endTime = process[1].preEmptData.endTime[process[1].preEmptData.endTime.length - 1];
+		process[1].turnAroundTime = process[1].endTime - process[1].arrivalTime;
+		process[1].waitingTime = process[1].turnAroundTime - process[1].burstTime;
+		process[1].pid = process[0].slice(1);
+		process[1].order = index + 1;
+		process[1].responseTime = process[1].startTime - process[1].arrivalTime;
+	});
+
+	return data;
+}
 
 export default function srtf(processes) {
 	logProcessStatus("CPu", 0, "clear");
@@ -18,7 +30,6 @@ export default function srtf(processes) {
 	}
 
 	var processedData = [];
-	var chartData = [];
 	var readyQueue = [];
 	var current_time = 0;
 	var operationalArray = sortable;
@@ -37,60 +48,6 @@ export default function srtf(processes) {
 		return array.sort((a, b) => {
 			return a[1].operationalBurstTime - b[1].operationalBurstTime;
 		});
-	}
-
-	function processData() {
-		[...new Set(processedData)].map((process, index) => {
-			process[1].startTime = process[1].preEmptData.startTime[0];
-			process[1].endTime = process[1].preEmptData.endTime[process[1].preEmptData.endTime.length - 1];
-			process[1].turnAroundTime = process[1].endTime - process[1].arrivalTime;
-			process[1].waitingTime = process[1].turnAroundTime - process[1].burstTime;
-			process[1].pid = process[0].slice(1);
-			process[1].order = index + 1;
-			process[1].responseTime = process[1].startTime - process[1].arrivalTime;
-
-			// let color = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
-			let colors = [
-				"#36a2eb",
-				"#ff6384",
-				"#ff9f40",
-				"#4bc0c0",
-				"#9966ff",
-				"#ffcd56",
-				"#c9cbcf",
-				"#b00004",
-				"#2d5a6a",
-				"#65af50",
-			];
-
-			process[1].preEmptData.startTime.map((time, i) => {
-				chartData.push({
-					label: process[0],
-					data: [
-						{
-							x: time,
-							// y: process[1].pid,
-							y: 0,
-						},
-						{
-							x: process[1].preEmptData.endTime[i],
-							// y: process[1].pid,
-							y: 0,
-						},
-					],
-					backgroundColor: colors[index],
-					borderColor: colors[index],
-				});
-			});
-		});
-
-		createChart(chartData, "Shortest Remaining Time First (SRTF)");
-
-		createTable(
-			[...new Set(processedData)].sort((a, b) => a[1].pid - b[1].pid),
-			"SRTF",
-			true
-		);
 	}
 
 	while (true && --FAILSAFE > 0) {
@@ -153,5 +110,5 @@ export default function srtf(processes) {
 			current_time++;
 		}
 	}
-	processData();
+	return processData(processedData);
 }

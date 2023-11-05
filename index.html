@@ -22,8 +22,8 @@
 				<div class="input-field col s12 l3 m3">
 					<select name="type" id="type">
 						<option value="FCFS">First Come First Serve</option>
-						<option selected value="SJF">Shortest Job First</option>
-						<option value="Priority">Priority</option>
+						<option value="SJF">Shortest Job First</option>
+						<option selected value="Priority">Priority</option>
 						<option value="RR">Round Robin</option>
 						<label for="type">Sheduling Type</label>
 					</select>
@@ -103,8 +103,13 @@
 			</div>
 			<div class="row low">
 				<div class="row sub_chart"></div>
-				<div class="row" id="chartContainer">
-					<canvas id="myChart"></canvas>
+				<div id="chart-wrapper">
+					<div id="chart-legends"></div>
+					<div class="row" id="chartContainer">
+						<div id="chart">
+							<!-- <canvas id="myChart"></canvas> -->
+						</div>
+					</div>
 				</div>
 				<div class="row" id="log-container">
 					<div class="log"></div>
