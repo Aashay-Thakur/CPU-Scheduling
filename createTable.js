@@ -1,4 +1,6 @@
 export default function createTable(data, type, isPreemption = false) {
+	data = data.sort((a, b) => a[1].pid - b[1].pid);
+
 	const tableContainer = document.getElementById("processed-data");
 	const table = document.createElement("table");
 	table.classList.add("striped", "centered", "responsive-table");

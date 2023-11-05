@@ -76,6 +76,29 @@ body {
   background-color: #26a69a;
 }
 
+#chartContainer {
+  overflow-x: auto;
+}
+#chartContainer #chart {
+  position: relative;
+  width: -moz-max-content;
+  width: max-content;
+}
+
+#chart-legends {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+}
+#chart-legends > .legend {
+  width: -moz-max-content;
+  width: max-content;
+  padding: 0.2rem 0.8rem;
+  color: white;
+}
+
 /* .mainContainer {
     padding: 0 5rem;
 } *//*# sourceMappingURL=style.css.map */

@@ -3,7 +3,7 @@ export default function fillData(type, randomize = false) {
 	let burstData = [];
 	let priorityData = [];
 
-	arrivalData = [0, 5, 12, 2, 9];
+	arrivalData = [1, 5, 12, 2, 9];
 	burstData = [11, 28, 2, 10, 16];
 	priorityData = [2, 0, 3, 1, 4];
 

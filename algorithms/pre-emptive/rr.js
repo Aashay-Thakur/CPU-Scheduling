@@ -1,7 +1,20 @@
 import logProcessStatus from "./log.js";
-import createTable from "../../createTable.js";
-import createChart from "../../createChart.js";
-const rr = (processes, options) => {
+
+function processData(data) {
+	[...new Set(data)].map((process, index) => {
+		process[1].startTime = process[1].preEmptData.startTime[0];
+		process[1].endTime = process[1].preEmptData.endTime[process[1].preEmptData.endTime.length - 1];
+		process[1].turnAroundTime = process[1].endTime - process[1].arrivalTime;
+		process[1].waitingTime = process[1].turnAroundTime - process[1].burstTime;
+		process[1].pid = process[0].slice(1);
+		process[1].order = index + 1;
+		process[1].responseTime = process[1].startTime - process[1].arrivalTime;
+	});
+
+	return data;
+}
+
+export default function rr(processes, options) {
 	var sortable = [];
 	for (let process in processes) {
 		sortable.push([
@@ -15,7 +28,6 @@ const rr = (processes, options) => {
 	}
 	const quantum = options.quantum;
 	var processedData = [];
-	var chartData = [];
 	var readyQueue = [];
 	var current_time = 0;
 	var operationalArray = sortable;
@@ -27,48 +39,6 @@ const rr = (processes, options) => {
 		returnArray.map((process) => logProcessStatus(process[0], time, "arrived"));
 		if (operationalArray.length === 0) logProcessStatus("CPU", time, "allArrived");
 		return returnArray;
-	}
-
-	function processData() {
-		[...new Set(processedData)].map((process, index) => {
-			process[1].startTime = process[1].preEmptData.startTime[0];
-			process[1].endTime = process[1].preEmptData.endTime[process[1].preEmptData.endTime.length - 1];
-			process[1].turnAroundTime = process[1].endTime - process[1].arrivalTime;
-			process[1].waitingTime = process[1].turnAroundTime - process[1].burstTime;
-			process[1].pid = process[0].slice(1);
-			process[1].order = index + 1;
-			process[1].responseTime = process[1].startTime - process[1].arrivalTime;
-
-			// let color = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
-			let colors = ["#36a2eb", "#ff6384", "#ff9f40", "#4bc0c0", "#9966ff", "#ffcd56"];
-
-			process[1].preEmptData.startTime.map((time, i) => {
-				chartData.push({
-					label: process[0],
-					data: [
-						{
-							x: time,
-							// y: process[1].pid,
-							y: 0,
-						},
-						{
-							x: process[1].preEmptData.endTime[i],
-							// y: process[1].pid,
-							y: 0,
-						},
-					],
-					backgroundColor: colors[index],
-					borderColor: colors[index],
-				});
-			});
-		});
-
-		createChart(chartData, "Round Robin (RR)");
-
-		createTable(
-			[...new Set(processedData)].sort((a, b) => a[1].pid - b[1].pid),
-			"Round Robin"
-		);
 	}
 
 	var FAILSAFE = 1000;
@@ -118,7 +88,5 @@ const rr = (processes, options) => {
 			current_time++;
 		}
 	}
-	processData();
-};
-
-export default rr;
+	return processData(processedData);
+}
