@@ -15,6 +15,7 @@ function processData(data) {
 }
 
 export default function rr(processes, options) {
+	var logs = [];
 	var sortable = [];
 	for (let process in processes) {
 		sortable.push([
@@ -36,8 +37,8 @@ export default function rr(processes, options) {
 		let returnArray = operationalArray.filter((process) => process[1].arrivalTime === time);
 		operationalArray = operationalArray.filter((process) => process[1].arrivalTime !== time);
 		returnArray.sort((a, b) => a[0] - b[0]);
-		returnArray.map((process) => logProcessStatus(process[0], time, "arrived"));
-		if (operationalArray.length === 0) logProcessStatus("CPU", time, "allArrived");
+		returnArray.map((process) => logs.push([time, { process: process[0], status: "arrived" }]));
+		if (operationalArray.length === 0) logs.push([time, { status: "allArrived" }]);
 		return returnArray;
 	}
 
@@ -54,7 +55,7 @@ export default function rr(processes, options) {
 			let currentProcess = readyQueue.shift();
 			let quantumTime = quantum;
 			currentProcess[1].preEmptData.startTime.push(current_time);
-			logProcessStatus(currentProcess[0], current_time, "started");
+			logs.push([current_time, { process: currentProcess[0], status: "started" }]);
 			while (currentProcess[1].operationalBurstTime >= 0 && quantumTime >= 0 && --FAILSAFE > 0) {
 				if (operationalArray.length !== 0) {
 					let arrivedPorcesses = processArrived(current_time);
@@ -63,7 +64,7 @@ export default function rr(processes, options) {
 				if (currentProcess[1].operationalBurstTime == 0) {
 					currentProcess[1].preEmptData.endTime.push(current_time);
 					processedData.push(currentProcess);
-					logProcessStatus(currentProcess[0], current_time, "completed");
+					logs.push([current_time, { process: currentProcess[0], status: "completed" }]);
 					break;
 				} else if (quantumTime == 0) {
 					if (readyQueue.length == 0) {
@@ -73,20 +74,22 @@ export default function rr(processes, options) {
 					currentProcess[1].preEmptData.endTime.push(current_time);
 					processedData.push(currentProcess);
 					readyQueue.push(currentProcess);
-					logProcessStatus(currentProcess[0], current_time, "preempted");
+					logs.push([current_time, { process: currentProcess[0], status: "preempted" }]);
 					break;
 				} else {
 					currentProcess[1].operationalBurstTime--;
 					quantumTime--;
 					current_time++;
-					logProcessStatus(currentProcess[0], current_time, "running");
+					logs.push([current_time, { process: currentProcess[0], status: "running" }]);
 				}
 			}
 		} else {
 			if (operationalArray.length == 0) break;
-			logProcessStatus("CPU", current_time, "idle");
+			logs.push([current_time, { status: "idle" }]);
 			current_time++;
 		}
 	}
+	logs.push([current_time, { status: "allCompleted" }]);
+	logProcessStatus(logs);
 	return processData(processedData);
 }

@@ -66,12 +66,18 @@ body {
 	}
 }
 
+.highlight-row {
+	background-color: rgb(242, 242, 242) !important;
+}
+
 #chartContainer {
 	// outline: 1px solid #9e9e9e;
 	overflow-x: auto;
+	overflow-y: hidden;
 	#chart {
 		position: relative;
-		width: max-content;
+		width: 300px;
+		height: 100px;
 	}
 }
 
@@ -81,12 +87,13 @@ body {
 	justify-content: center;
 	align-items: center;
 	gap: 3rem;
+	flex-wrap: wrap;
+	@media (max-width: 768px) {
+		gap: 1rem;
+	}
 	& > .legend {
 		width: max-content;
-		padding: 0.2rem 0.8rem;
+		padding: 0.2rem 0.5rem 0.2rem 3rem;
 		color: white;
 	}
 }
-/* .mainContainer {
-    padding: 0 5rem;
-} */

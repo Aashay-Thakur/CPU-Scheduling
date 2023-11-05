@@ -37,11 +37,11 @@ export default function d3Chart(dataset, totalNumberOfProcesses, title) {
 		.data(dataset)
 		.enter()
 		.append("div")
-		.attr("class", "tooltipped")
+		.attr("class", "tooltipped chart-bar")
 		.attr("data-position", "top")
 		.attr("data-tooltip", (d) => {
 			M.Tooltip.init(document.querySelectorAll(".tooltipped"));
-			return `P${d[0]}`;
+			return `P${d[0]} ${d[1]}-${d[2]}`;
 		})
 		.attr("data-pid", (d) => d[0])
 		.style("height", lineWidth)
@@ -50,7 +50,7 @@ export default function d3Chart(dataset, totalNumberOfProcesses, title) {
 			return colors[d[0] - 1];
 		})
 		.style("position", "absolute")
-		// .style("top", (d) => d[0] * 20 + "px")
+		// .style("top", (d) => d[0] * 40 + "px")
 		.style("top", "50%")
 		.style("transform", "translateY(-50%)")
 		.style("left", (d) => xScale(d[1]) + 10 + "px");
@@ -59,12 +59,15 @@ export default function d3Chart(dataset, totalNumberOfProcesses, title) {
 
 	d3.select("#chart")
 		.append("svg")
+		.attr("id", "xAxis")
+		.style("position", "absolute")
+		.style("top", "calc(100% - 30px)")
+		.style("left", "10")
 		.attr("width", () => {
 			return xScale(dataset[dataset.length - 1][2]) + 20;
 		})
 		.attr("height", "100%")
 		.append("g")
-		.attr("transform", "translate(10,100)")
 		.call(xAxis);
 
 	var chartLegendContainer = document.querySelector("#chart-legends");

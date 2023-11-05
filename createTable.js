@@ -1,9 +1,9 @@
-export default function createTable(data, type, isPreemption = false) {
+export default function createTable(data, type, title = type) {
 	data = data.sort((a, b) => a[1].pid - b[1].pid);
 
 	const tableContainer = document.getElementById("processed-data");
 	const table = document.createElement("table");
-	table.classList.add("striped", "centered", "responsive-table");
+	table.classList.add("highlight", "centered", "responsive-table");
 	table.createTHead();
 	const header = table.tHead.insertRow();
 	const headerData = [
@@ -40,6 +40,7 @@ export default function createTable(data, type, isPreemption = false) {
 	];
 	data.forEach((process) => {
 		const row = body.insertRow();
+		row.classList.add(`p${process[1].pid}row`);
 		const cell = row.insertCell();
 		cell.innerText = process[0];
 		keys.map((key) => {
@@ -81,7 +82,6 @@ export default function createTable(data, type, isPreemption = false) {
 		document.querySelector(".sub_table").innerHTML = `<h5>SRTF Scheduling Table</h5>`;
 		return;
 	}
-	document.querySelector(".sub_table").innerHTML = `<h5>${
-		isPreemption ? "(Pre-Emptive) " : ""
-	}${type} Scheduling Table</h5>`;
+
+	document.querySelector(".sub_table").innerHTML = `<h5>${title} Scheduling Table</h5>`;
 }
