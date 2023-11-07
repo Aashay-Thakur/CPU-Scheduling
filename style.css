@@ -76,10 +76,6 @@ body {
   background-color: #26a69a;
 }
 
-.highlight-row {
-  background-color: rgb(242, 242, 242) !important;
-}
-
 #chartContainer {
   overflow-x: auto;
   overflow-y: hidden;
@@ -108,4 +104,172 @@ body {
   width: max-content;
   padding: 0.2rem 0.5rem 0.2rem 3rem;
   color: white;
+}
+
+span.p1log {
+  background: #36a2eb;
+  color: white;
+  padding: 0.2rem 0.5rem;
+  font-style: normal;
+}
+
+tr.p1row:hover,
+tr.p1row.highlight-row {
+  background-color: rgba(54, 162, 235, 0.2) !important;
+}
+
+span.p2log {
+  background: #ff6384;
+  color: white;
+  padding: 0.2rem 0.5rem;
+  font-style: normal;
+}
+
+tr.p2row:hover,
+tr.p2row.highlight-row {
+  background-color: rgba(255, 99, 132, 0.2) !important;
+}
+
+span.p3log {
+  background: #ff9f40;
+  color: white;
+  padding: 0.2rem 0.5rem;
+  font-style: normal;
+}
+
+tr.p3row:hover,
+tr.p3row.highlight-row {
+  background-color: rgba(255, 159, 64, 0.2) !important;
+}
+
+span.p4log {
+  background: #4bc0c0;
+  color: white;
+  padding: 0.2rem 0.5rem;
+  font-style: normal;
+}
+
+tr.p4row:hover,
+tr.p4row.highlight-row {
+  background-color: rgba(75, 192, 192, 0.2) !important;
+}
+
+span.p5log {
+  background: #9966ff;
+  color: white;
+  padding: 0.2rem 0.5rem;
+  font-style: normal;
+}
+
+tr.p5row:hover,
+tr.p5row.highlight-row {
+  background-color: rgba(153, 102, 255, 0.2) !important;
+}
+
+span.p6log {
+  background: #ffcd56;
+  color: white;
+  padding: 0.2rem 0.5rem;
+  font-style: normal;
+}
+
+tr.p6row:hover,
+tr.p6row.highlight-row {
+  background-color: rgba(255, 205, 86, 0.2) !important;
+}
+
+span.p7log {
+  background: #c9cbcf;
+  color: white;
+  padding: 0.2rem 0.5rem;
+  font-style: normal;
+}
+
+tr.p7row:hover,
+tr.p7row.highlight-row {
+  background-color: rgba(201, 203, 207, 0.2) !important;
+}
+
+span.p8log {
+  background: #b00004;
+  color: white;
+  padding: 0.2rem 0.5rem;
+  font-style: normal;
+}
+
+tr.p8row:hover,
+tr.p8row.highlight-row {
+  background-color: rgba(176, 0, 4, 0.2) !important;
+}
+
+span.p9log {
+  background: #2d5a6a;
+  color: white;
+  padding: 0.2rem 0.5rem;
+  font-style: normal;
+}
+
+tr.p9row:hover,
+tr.p9row.highlight-row {
+  background-color: rgba(45, 90, 106, 0.2) !important;
+}
+
+span.p10log {
+  background: #65af50;
+  color: white;
+  padding: 0.2rem 0.5rem;
+  font-style: normal;
+}
+
+tr.p10row:hover,
+tr.p10row.highlight-row {
+  background-color: rgba(101, 175, 80, 0.2) !important;
+}
+
+.log .reason {
+  font-style: italic;
+}
+
+.preloader {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 3rem;
+  height: 100%;
+  width: 100%;
+  z-index: 9999;
+  background-color: white;
+  overflow: hidden;
+}
+.preloader p {
+  font-size: 1.5rem;
+  font-style: italic;
+}
+.preloader .gear-wrapper {
+  height: 100px;
+  width: 100px;
+  position: relative;
+}
+.preloader .small-gear {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  animation: rotate 2s linear infinite;
+}
+.preloader .large-gear {
+  position: absolute;
+  top: 0;
+  left: 0;
+  animation: rotate 2s linear infinite reverse;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }/*# sourceMappingURL=style.css.map */

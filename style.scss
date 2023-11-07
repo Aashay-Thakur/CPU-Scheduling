@@ -1,3 +1,5 @@
+$colors: #36a2eb, #ff6384, #ff9f40, #4bc0c0, #9966ff, #ffcd56, #c9cbcf, #b00004, #2d5a6a, #65af50;
+
 html {
 	font-family: sans-serif;
 	overflow-x: auto;
@@ -66,10 +68,6 @@ body {
 	}
 }
 
-.highlight-row {
-	background-color: rgb(242, 242, 242) !important;
-}
-
 #chartContainer {
 	// outline: 1px solid #9e9e9e;
 	overflow-x: auto;
@@ -95,5 +93,74 @@ body {
 		width: max-content;
 		padding: 0.2rem 0.5rem 0.2rem 3rem;
 		color: white;
+	}
+}
+
+@for $i from 1 through length($colors) {
+	span.p#{$i}log {
+		background: nth($colors, $i);
+		color: white;
+		padding: 0.2rem 0.5rem;
+		font-style: normal;
+	}
+
+	// Puts a colour coded background on the table rows, based on gantt
+	tr.p#{$i}row:hover,
+	tr.p#{$i}row.highlight-row {
+		$red: red(nth($colors, $i));
+		$green: green(nth($colors, $i));
+		$blue: blue(nth($colors, $i));
+
+		background-color: rgba($red, $green, $blue, 0.2) !important;
+	}
+}
+.log {
+	.reason {
+		font-style: italic;
+	}
+}
+
+.preloader {
+	position: fixed;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	gap: 3rem;
+	height: 100%;
+	width: 100%;
+	z-index: 9999;
+	background-color: white;
+	overflow: hidden;
+	p {
+		font-size: 1.5rem;
+		font-style: italic;
+	}
+	.gear-wrapper {
+		height: 100px;
+		width: 100px;
+		position: relative;
+	}
+
+	.small-gear {
+		position: absolute;
+		bottom: 0;
+		right: 0;
+		animation: rotate 2s linear infinite;
+	}
+	.large-gear {
+		position: absolute;
+		top: 0;
+		left: 0;
+		animation: rotate 2s linear infinite reverse;
+	}
+}
+
+@keyframes rotate {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
 	}
 }

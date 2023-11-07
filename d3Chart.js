@@ -1,5 +1,18 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
+const colors = [
+	"#36a2eb",
+	"#ff6384",
+	"#ff9f40",
+	"#4bc0c0",
+	"#9966ff",
+	"#ffcd56",
+	"#c9cbcf",
+	"#b00004",
+	"#2d5a6a",
+	"#65af50",
+];
+
 export default function d3Chart(dataset, totalNumberOfProcesses, title) {
 	// Reset chart
 	d3.select("#chart").selectAll("svg").remove();
@@ -17,19 +30,6 @@ export default function d3Chart(dataset, totalNumberOfProcesses, title) {
 	const xScale = d3.scaleLinear();
 	xScale.domain([dataset[0][1], dataset[dataset.length - 1][2]]);
 	xScale.range([dataset[0][1] * lengthMultiplier, dataset[dataset.length - 1][2] * lengthMultiplier]);
-
-	let colors = [
-		"#36a2eb",
-		"#ff6384",
-		"#ff9f40",
-		"#4bc0c0",
-		"#9966ff",
-		"#ffcd56",
-		"#c9cbcf",
-		"#b00004",
-		"#2d5a6a",
-		"#65af50",
-	];
 
 	d3.select("#chart")
 		.selectAll("div")
