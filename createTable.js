@@ -1,4 +1,4 @@
-export default function createTable(data, type, title = type) {
+export default function createTable(data, type) {
 	data = data.sort((a, b) => a[1].pid - b[1].pid);
 
 	const tableContainer = document.getElementById("processed-data");
@@ -77,11 +77,4 @@ export default function createTable(data, type, title = type) {
 		}</b>`;
 		averageContainer.appendChild(averageResponseElem);
 	}
-
-	if (type == "SRTF") {
-		document.querySelector(".sub_table").innerHTML = `<h5>SRTF Scheduling Table</h5>`;
-		return;
-	}
-
-	document.querySelector(".sub_table").innerHTML = `<h5>${title} Scheduling Table</h5>`;
 }
