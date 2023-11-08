@@ -6,16 +6,22 @@ import rr from "./algorithms/pre-emptive/rr.js";
 import priorityPE from "./algorithms/pre-emptive/priority-pe.js";
 import srtf from "./algorithms/pre-emptive/srtf.js";
 
-import d3Chart from "./d3Chart.js";
+import Chart from "./Chart.js";
 import createTable from "./createTable.js";
 
 import fillData from "./fillData.js";
 
 const submit = document.querySelector(".submit");
+const calculate = () => submit.dispatchEvent(new Event("click", { bubbles: true }));
+const chart = new Chart();
+const setTitle = (title) => {
+	document.querySelector(".sub_chart").innerHTML = `<h5>${title} Scheduling - Gantt Chart</h5>`;
+	document.querySelector(".sub_table").innerHTML = `<h5>${title} Scheduling - Table</h5>`;
+};
 
 document.addEventListener("DOMContentLoaded", function () {
 	var selectElems = document.querySelectorAll("select");
-	var selectInstances = M.FormSelect.init(selectElems, {});
+	M.FormSelect.init(selectElems, {});
 
 	let type = document.querySelector("#type").value;
 
@@ -50,10 +56,10 @@ document.addEventListener("DOMContentLoaded", function () {
 			if (document.querySelector(".quantumInputContainer"))
 				document.querySelector(".quantumInputContainer").classList.toggle("hide");
 			document.querySelector(".log").innerHTML = "";
-			submit.dispatchEvent(new Event("click", { bubbles: true }));
+			calculate();
 		}
 		if (e.target && e.target.matches("input#reverse-switch")) {
-			submit.dispatchEvent(new Event("click", { bubbles: true }));
+			calculate();
 		}
 	});
 
@@ -71,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		}
 	});
 
-	submit.dispatchEvent(new Event("click", { bubbles: true }));
+	calculate();
 });
 
 function addProcesses(totalNumberOfProcesses, type) {
@@ -123,7 +129,7 @@ document.querySelector("#type").addEventListener("change", (e) => {
 	let type = e.target.value;
 	updateFormTable(type);
 	fillData(type);
-	submit.dispatchEvent(new Event("click", { bubbles: true }));
+	calculate();
 });
 
 //* Updates the form table based on the type of algorithm selected
@@ -237,43 +243,44 @@ submit.addEventListener("click", () => {
 	let totalNumberOfProcesses = Object.keys(processes).length;
 	let isPreEmptive = document.getElementById("pre-emption")?.checked;
 
-	if (type === "FCFS") {
-		let result = fcfs(processes);
-		d3Chart(result, totalNumberOfProcesses, "FCFS");
-		createTable([...new Set(result)], type);
+	let result;
+
+	switch (type) {
+		case "FCFS":
+			result = fcfs(processes);
+			setTitle("First Come, First Serve");
+			break;
+		case "SJF":
+			if (isPreEmptive) {
+				result = srtf(processes);
+				setTitle("Shortest Remaining Time First");
+			} else {
+				result = sjf(processes);
+				setTitle("Shortest Job First");
+			}
+			break;
+		case "Priority":
+			let options = {
+				reverse: document.getElementById("reverse-switch").checked,
+				quantum: Number(document.querySelector("#quantum").value),
+			};
+			if (isPreEmptive) {
+				result = priorityPE(processes, options);
+				setTitle("(Pre-emptive) Priority");
+			} else {
+				result = priority(processes, options);
+				setTitle("Priority");
+			}
+			break;
+		case "RR":
+			let option = { quantum: Number(document.querySelector("#quantum").value) };
+			result = rr(processes, option);
+			setTitle("Round Robin");
+			break;
 	}
-	if (type === "SJF") {
-		if (isPreEmptive) {
-			let result = srtf(processes);
-			d3Chart(result, totalNumberOfProcesses, "SRTF");
-			createTable([...new Set(result)], type, "SRTF");
-		} else {
-			let result = sjf(processes);
-			d3Chart(result, totalNumberOfProcesses, "SJF");
-			createTable([...new Set(result)], type);
-		}
-	}
-	if (type === "Priority") {
-		let options = {
-			reverse: document.getElementById("reverse-switch").checked,
-			quantum: Number(document.querySelector("#quantum").value),
-		};
-		if (isPreEmptive) {
-			let result = priorityPE(processes, options);
-			d3Chart(result, totalNumberOfProcesses, "(Pre-emptive) Priority");
-			createTable([...new Set(result)], type, "(Pre-emptive) Priority");
-		} else {
-			let result = priority(processes, options);
-			d3Chart(result, totalNumberOfProcesses, "Priority");
-			createTable([...new Set(result)], type);
-		}
-	}
-	if (type == "RR") {
-		let option = { quantum: Number(document.querySelector("#quantum").value) };
-		let result = rr(processes, option);
-		d3Chart(result, totalNumberOfProcesses, "RR");
-		createTable([...new Set(result)], type, "Round Robin");
-	}
+
+	chart.ganttChart(result, totalNumberOfProcesses, "Round Robin");
+	createTable([...new Set(result)], type, "Round Robin");
 });
 
 if (document.querySelector(".preloader")) {

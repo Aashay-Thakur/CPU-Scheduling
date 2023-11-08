@@ -4,14 +4,12 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>CPU Scheduling</title>
-		<!-- Compiled and minified CSS -->
 		<link
 			rel="stylesheet"
 			href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
 		/>
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 		<script src="https://kit.fontawesome.com/a5d5d88c9c.js" crossorigin="anonymous"></script>
-		<!-- Compiled and minified JavaScript -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
 		<link rel="stylesheet" href="style.css" />
@@ -33,10 +31,15 @@
 			<div class="row">
 				<div class="input-field col s12 l3 m3">
 					<select name="type" id="type">
-						<option value="FCFS">First Come First Serve</option>
-						<option value="SJF">Shortest Job First</option>
-						<option value="Priority">Priority</option>
-						<option selected value="RR">Round Robin</option>
+						<optgroup label="Process Scheduling">
+							<option selected value="FCFS">First Come First Serve</option>
+							<option value="SJF">Shortest Job First</option>
+							<option value="Priority">Priority</option>
+							<option value="RR">Round Robin</option>
+						</optgroup>
+						<optgroup label="Disk Scheduling">
+							<option value="dFCFS">Disk FCFS</option>
+						</optgroup>
 						<label for="type">Sheduling Type</label>
 					</select>
 				</div>
@@ -118,9 +121,7 @@
 				<div id="chart-wrapper">
 					<div id="chart-legends"></div>
 					<div class="row" id="chartContainer">
-						<div id="chart">
-							<!-- <canvas id="myChart"></canvas> -->
-						</div>
+						<div id="chart"></div>
 					</div>
 				</div>
 				<div class="row" id="log-container">
