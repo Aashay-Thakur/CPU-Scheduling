@@ -70,7 +70,7 @@ export default class Chart {
 		}
 	}
 
-	ganttChart(dataset, totalNumberOfProcesses, title) {
+	ganttChart(dataset, totalNumberOfProcesses) {
 		this.resetChart();
 
 		dataset = this.getCoords(dataset);
@@ -92,7 +92,6 @@ export default class Chart {
 			.attr("class", "tooltipped chart-bar")
 			.attr("data-position", "top")
 			.attr("data-tooltip", (d) => {
-				M.Tooltip.init(document.querySelectorAll(".tooltipped"));
 				return `P${d[0]} ${d[1]}-${d[2]}`;
 			})
 			.attr("data-pid", (d) => d[0])
@@ -108,6 +107,7 @@ export default class Chart {
 			.style("left", (d) => xScale(d[1]) + 10 + "px");
 
 		const xAxis = d3.axisBottom(xScale).tickValues(ticks);
+		M.Tooltip.init(document.querySelectorAll(".tooltipped"));
 
 		d3.select("#chart")
 			.append("svg")
@@ -123,5 +123,83 @@ export default class Chart {
 			.call(xAxis);
 
 		this.createLegend(totalNumberOfProcesses);
+	}
+
+	getLineCoords(data) {
+		let returnArray = [];
+		data.forEach((item, index) => {
+			if (index === data.length - 1) return;
+			else returnArray.push([item[1].location, data[index + 1][1].location]);
+		});
+		return returnArray;
+	}
+
+	getLineTicks(data) {
+		let returnArray = [];
+		data.forEach((item) => {
+			returnArray.push(item[1].location);
+		});
+		returnArray = [...new Set(returnArray)];
+		returnArray.sort((a, b) => a - b);
+		return returnArray;
+	}
+
+	lineChart(dataset, totalNumberOfIO) {
+		d3.select(".outputDisk").selectAll("svg").remove();
+		d3.select(".outputDisk").selectAll("div").remove();
+
+		let data = this.getLineCoords(dataset);
+		let heightMultiplier = 40;
+		let padding = 20;
+
+		console.log(JSON.stringify(dataset));
+
+		var xScale = d3.scaleLinear();
+		xScale.domain([0, 199]);
+		xScale.range([0, parseInt(document.querySelector(".outputDisk").offsetWidth)]);
+
+		d3.select(".outputDisk")
+			.append("svg")
+			.attr("width", "100%")
+			.attr("height", totalNumberOfIO * heightMultiplier + padding * 2 + 10)
+			.attr("id", "line-chart")
+			.selectAll("svg")
+			.data(data)
+			.enter()
+			.append("line")
+			.attr("shape-rendering", "geometricPrecision")
+			.attr("class", "line")
+			.attr("x1", (d) => xScale(d[0]))
+			.attr("y1", (d, i) => i * heightMultiplier + padding)
+			.attr("x2", (d) => xScale(d[1]))
+			.attr("y2", (d, i) => (i + 1) * heightMultiplier + padding);
+		// .style("stroke-width", "2px")
+		// .style("stroke", "black");
+
+		d3.select("#line-chart")
+			.selectAll("svg")
+			.data(dataset)
+			.enter()
+			.append("circle")
+			.attr("cx", (d) => xScale(d[1].location))
+			.attr("cy", (d, i) => i * heightMultiplier + padding)
+			.attr("r", "5px")
+			.attr("class", "point")
+			.append("title")
+			.text((d) => {
+				return `Request ${d[0] + 1}\nLocation: ${d[1].location}\nSeek Time: ${d[1].seek}`;
+			});
+		// .style("stroke", "white")
+		// .style("stroke-width", "2px")
+		M.Tooltip.init(document.querySelectorAll(".tooltipped"));
+
+		let ticks = this.getLineTicks(dataset);
+		console.log(ticks);
+		let xAxis = d3.axisBottom(xScale).tickValues(ticks);
+
+		d3.select("#line-chart")
+			.append("g")
+			.attr("transform", `translate(0, ${totalNumberOfIO * heightMultiplier + padding + 10})`)
+			.call(xAxis);
 	}
 }

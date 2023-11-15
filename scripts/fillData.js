@@ -1,4 +1,4 @@
-export default function fillData(type, randomize = false) {
+function fillData(type, randomize = false) {
 	let arrivalData = [];
 	let burstData = [];
 	let priorityData = [];
@@ -34,3 +34,19 @@ export default function fillData(type, randomize = false) {
 		});
 	}
 }
+
+function fillDiskData(type) {
+	let arrivalData = new Array(10).fill(0);
+	let locationData = [11, 28, 2, 10, 16, 3, 189, 50, 43, 32];
+
+	document.querySelectorAll(".ioarrivalInput").forEach((elem, index) => {
+		if (index >= 10) elem.value = Math.floor(Math.random() * 20);
+		else elem.value = arrivalData[index];
+	});
+
+	document.querySelectorAll(".iolocationInput").forEach((elem, index) => {
+		elem.value = locationData[index] || Math.floor(Math.random() * 199);
+	});
+}
+
+export { fillData, fillDiskData };
