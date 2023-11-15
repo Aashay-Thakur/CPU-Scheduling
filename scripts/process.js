@@ -7,10 +7,11 @@ import priorityPE from "./algorithms/pre-emptive/priority-pe.js";
 import srtf from "./algorithms/pre-emptive/srtf.js";
 
 import Chart from "./Chart.js";
-import createTable from "./createTable.js";
+import { createTable } from "./createTable.js";
 
-import fillData from "./fillData.js";
+import { fillData } from "./fillData.js";
 
+// global variables
 const submit = document.querySelector(".submit");
 const calculate = () => submit.dispatchEvent(new Event("click", { bubbles: true }));
 const chart = new Chart();
@@ -20,13 +21,11 @@ const setTitle = (title) => {
 };
 
 document.addEventListener("DOMContentLoaded", function () {
-	var selectElems = document.querySelectorAll("select");
-	M.FormSelect.init(selectElems, {});
-
 	let type = document.querySelector("#type").value;
-
+	// Initialize the input table with 5 processes
 	addProcesses(5, type);
-
+	/* Event Listeners */
+	// Listen for Changes in the number of processes
 	document.getElementById("numberOfProcesses").addEventListener("change", (e) => {
 		if (e.target.value < 5) {
 			e.target.value = 5;
@@ -41,6 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		}
 	});
 
+	// Listen for add process button click
 	document.querySelector(".addProcess").addEventListener("click", () => {
 		let numberOfProcessInput = document.getElementById("numberOfProcesses");
 		if (numberOfProcessInput.value < 10) {
@@ -51,6 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		}
 	});
 
+	// Listen for pre-emption checkbox click
 	document.getElementById("options-container").addEventListener("click", (e) => {
 		if (e.target && e.target.matches("input#pre-emption")) {
 			if (document.querySelector(".quantumInputContainer"))
@@ -63,6 +64,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		}
 	});
 
+	// Listen for click on a bar in the chart
 	document.getElementById("chart").addEventListener("click", (e) => {
 		if (e.target && e.target.matches("div.chart-bar")) {
 			let row = document.querySelector(`.p${e.target.dataset.pid}row`);
@@ -77,6 +79,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		}
 	});
 
+	// Finally Trigger a button click to calculate the result
 	calculate();
 });
 
@@ -203,11 +206,9 @@ function updateFormTable(type) {
 				priorityTableData.classList.add("toBeRemoved");
 				elem.appendChild(priorityTableData);
 			});
-
 			break;
 		case "RR":
 			optionsContainer.innerHTML = quantumInput.replace("hide", "");
-
 			break;
 		case "SJF":
 			optionsContainer.innerHTML = preEmptionCheck;
@@ -220,7 +221,7 @@ function updateFormTable(type) {
 submit.addEventListener("click", () => {
 	let type = document.querySelector("#type").value;
 
-	if (type === "RR" || type === "Priority") {
+	if (document.querySelector("#quantum")) {
 		if (document.querySelector("#quantum").value === "" || document.querySelector("#quantum").value === "0") {
 			document.querySelector("#quantum").value = 10;
 			M.toast({ html: "Quantum cannot be 0<br/>Setting to default value of 10" });
@@ -283,8 +284,8 @@ submit.addEventListener("click", () => {
 	createTable([...new Set(result)], type, "Round Robin");
 });
 
-if (document.querySelector(".preloader")) {
-	setTimeout(() => {
-		document.querySelector(".preloader").remove();
-	}, 1000);
-}
+// if (document.querySelector(".preloader")) {
+// 	setTimeout(() => {
+// 		document.querySelector(".preloader").remove();
+// 	}, 1000);
+// }

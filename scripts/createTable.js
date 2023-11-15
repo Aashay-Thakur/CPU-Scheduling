@@ -1,4 +1,4 @@
-export default function createTable(data, type) {
+function createTable(data, type) {
 	data = data.sort((a, b) => a[1].pid - b[1].pid);
 
 	const tableContainer = document.getElementById("processed-data");
@@ -78,3 +78,40 @@ export default function createTable(data, type) {
 		averageContainer.appendChild(averageResponseElem);
 	}
 }
+
+function createTableDisk(data) {
+	var tableIO = document.querySelector(".outputTableDisk");
+	tableIO.innerHTML = "";
+
+	var orderRow = document.createElement("tr");
+	var seekRow = document.createElement("tr");
+
+	orderRow.innerHTML = `<th>Order</th>`;
+	seekRow.innerHTML = `<th>Seek</th>`;
+
+	data.forEach((item) => {
+		// if (item[1].initial) return;
+
+		let orderCell = document.createElement("td");
+		orderCell.style.textAlign = "center";
+		orderCell.innerText = item[1].location;
+		if (item[1].initial) {
+			orderCell.classList.add("initial", "tooltipped");
+			orderCell.setAttribute("data-position", "top");
+			orderCell.setAttribute("data-tooltip", "Initial Location");
+			M.Tooltip.init(orderCell, {});
+		}
+
+		let seekCell = document.createElement("td");
+		seekCell.style.textAlign = "center";
+		seekCell.innerText = item[1].seek;
+
+		orderRow.appendChild(orderCell);
+		seekRow.appendChild(seekCell);
+	});
+
+	tableIO.appendChild(orderRow);
+	tableIO.appendChild(seekRow);
+}
+
+export { createTable, createTableDisk };
