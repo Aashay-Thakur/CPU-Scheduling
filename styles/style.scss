@@ -232,7 +232,8 @@ body {
 	}
 }
 
-body {
+body,
+#log-container {
 	@extend .horizontal-scroll;
 	&::-webkit-scrollbar {
 		width: 0.5rem;
@@ -256,6 +257,9 @@ body {
 		transform-origin: center;
 		&:hover {
 			transform: scale(1.5);
+		}
+		&:focus {
+			outline: none;
 		}
 	}
 }

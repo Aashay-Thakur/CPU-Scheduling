@@ -189,9 +189,11 @@
 			</div>
 		</div>
 		<script>
+			var currentTab = "process";
 			document.addEventListener("DOMContentLoaded", function () {
 				var elems = document.querySelectorAll(".sidenav");
 				var instances = M.Sidenav.init(elems, {});
+
 				M.Tabs.init(document.querySelector(".tabs"), {});
 				M.FormSelect.init(document.querySelectorAll("select"), {});
 			});

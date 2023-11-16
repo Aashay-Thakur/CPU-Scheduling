@@ -4,7 +4,9 @@ import { fillDiskData } from "./fillData.js";
 import Chart from "./Chart.js";
 import { createTableDisk } from "./createTable.js";
 
-const submit = document.querySelector(".submitDisk");
+const submitDisk = document.querySelector(".submitDisk");
+const calculateDisk = () => submitDisk.dispatchEvent(new Event("click", { bubbles: true }));
+
 const setTitle = (title) => {
 	document.querySelector(".diskChartTitle").innerHTML = `<h5>${title} Scheduling - Scatter Chart</h5>`;
 	document.querySelector(".diskTableTitle").innerHTML = `<h5>${title} Scheduling - Table</h5>`;
@@ -28,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	updateTable(totalNumberOfIO);
 
-	submit.addEventListener("click", () => {
+	submitDisk.addEventListener("click", () => {
 		var type = document.getElementById("disk-type").value;
 		var data = getData();
 		calculate(type, data, totalNumberOfIO);

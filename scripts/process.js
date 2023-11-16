@@ -284,8 +284,7 @@ submit.addEventListener("click", () => {
 	createTable([...new Set(result)], type, "Round Robin");
 });
 
-if (document.querySelector(".preloader")) {
-	setTimeout(() => {
-		document.querySelector(".preloader").remove();
-	}, 1000);
-}
+document.querySelector(".preloader").remove();
+// if (document.querySelector(".preloader")) {
+// 	setTimeout(() => {}, 1000);
+// }

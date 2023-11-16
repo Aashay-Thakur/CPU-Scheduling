@@ -152,8 +152,6 @@ export default class Chart {
 		let heightMultiplier = 40;
 		let padding = 20;
 
-		console.log(JSON.stringify(dataset));
-
 		var xScale = d3.scaleLinear();
 		xScale.domain([0, 199]);
 		xScale.range([0, parseInt(document.querySelector(".outputDisk").offsetWidth)]);
@@ -184,17 +182,25 @@ export default class Chart {
 			.attr("cx", (d) => xScale(d[1].location))
 			.attr("cy", (d, i) => i * heightMultiplier + padding)
 			.attr("r", "5px")
-			.attr("class", "point")
-			.append("title")
-			.text((d) => {
-				return `Request ${d[0] + 1}\nLocation: ${d[1].location}\nSeek Time: ${d[1].seek}`;
+			.attr("class", "point tooltipped")
+			.attr("data-position", "top")
+			.attr("data-tooltip", (d) => {
+				return `Request ${d[0] + 1}<br/>Location: ${d[1].location}<br/>Seek Time: ${d[1].seek}`;
 			});
+		// .append("title")
+		// .text((d) => {
+		// 	return `Request ${d[0] + 1}\nLocation: ${d[1].location}\nSeek Time: ${d[1].seek}`;
+		// });
 		// .style("stroke", "white")
 		// .style("stroke-width", "2px")
-		M.Tooltip.init(document.querySelectorAll(".tooltipped"));
+		var tooltips = M.Tooltip.init(document.querySelectorAll(".point"));
+		tooltips.forEach((tooltip, index) => {
+			tooltip.options.postion = "right";
+			tooltip.tooltipEl.style.left = xScale(dataset[index][1].location + 50) + "px";
+			tooltip.tooltipEl.style.marginTop = "50px";
+		});
 
 		let ticks = this.getLineTicks(dataset);
-		console.log(ticks);
 		let xAxis = d3.axisBottom(xScale).tickValues(ticks);
 
 		d3.select("#line-chart")
