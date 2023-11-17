@@ -37,7 +37,7 @@
 				</div>
 				<div id="process" class="col s12">
 					<div class="row">
-						<div class="input-field col s12 l3 m3">
+						<div class="input-field col s12 l4 m4">
 							<select name="type" id="type">
 								<optgroup label="Process Scheduling">
 									<option selected value="FCFS">First Come First Serve</option>
@@ -138,10 +138,11 @@
 				</div>
 				<div id="disk" class="col s12">
 					<div class="row">
-						<div class="input-field col s12 l3 m3">
+						<div class="input-field col s12 l4 m4">
 							<select name="type" id="disk-type">
 								<optgroup label="Disk Scheduling">
-									<option selected value="dFCFS">First Come First Serve</option>
+									<option value="dFCFS">First Come First Serve</option>
+									<option selected value="dSSTF">Shortest Seek Time First</option>
 								</optgroup>
 								<label for="type">Sheduling Type</label>
 							</select>
@@ -175,6 +176,7 @@
 							<div class="tableIOWrapper horizontal-scroll">
 								<table class="outputTableDisk"></table>
 							</div>
+							<div class="total"></div>
 						</div>
 					</div>
 					<div class="row">

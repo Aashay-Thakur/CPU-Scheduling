@@ -195,6 +195,12 @@ body {
 	}
 }
 
+.total {
+	padding: 0.2rem 0.5rem;
+	width: max-content;
+	margin-top: 3rem;
+}
+
 .horizontal-scroll {
 	&::-webkit-scrollbar {
 		/* horizontal scroll bar style */

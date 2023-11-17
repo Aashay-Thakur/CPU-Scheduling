@@ -1,16 +1,23 @@
 export default function dfcfs(data) {
-	let processedData = [];
+	let orderedData = [];
 
-	processedData = data.sort((a, b) => {
+	orderedData = data.sort((a, b) => {
 		if (a[1].initial) return -1;
 		return a[1].arrival - b[1].arrival;
 	});
 
-	processedData.forEach((item, index) => {
+	orderedData.forEach((item, index) => {
 		if (!item[1].initial) {
-			item[1].seek = Math.abs(processedData[index - 1][1].location - item[1].location);
+			item[1].seek = Math.abs(orderedData[index - 1][1].location - item[1].location);
 		}
 	});
 
-	return processedData;
+	let totalTime = orderedData.reduce((acc, item) => {
+		if (!item[1].initial) {
+			return acc + item[1].seek;
+		}
+		return acc;
+	}, 0);
+
+	return { processedData: orderedData, totalTime };
 }

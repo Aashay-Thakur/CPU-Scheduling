@@ -305,6 +305,13 @@ tr.p10row.highlight-row {
   top: 10%;
 }
 
+.total {
+  padding: 0.2rem 0.5rem;
+  width: -moz-max-content;
+  width: max-content;
+  margin-top: 3rem;
+}
+
 .horizontal-scroll::-webkit-scrollbar, body::-webkit-scrollbar,
 #log-container::-webkit-scrollbar {
   /* horizontal scroll bar style */

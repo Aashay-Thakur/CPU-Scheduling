@@ -1,4 +1,5 @@
-import dFCFS from "./algorithms/disk/dfcfs.js";
+import dfcfs from "./algorithms/disk/dfcfs.js";
+import dsstf from "./algorithms/disk/dsstf.js";
 
 import { fillDiskData } from "./fillData.js";
 import Chart from "./Chart.js";
@@ -8,8 +9,10 @@ const submitDisk = document.querySelector(".submitDisk");
 const calculateDisk = () => submitDisk.dispatchEvent(new Event("click", { bubbles: true }));
 
 const setTitle = (title) => {
-	document.querySelector(".diskChartTitle").innerHTML = `<h5>${title} Scheduling - Scatter Chart</h5>`;
-	document.querySelector(".diskTableTitle").innerHTML = `<h5>${title} Scheduling - Table</h5>`;
+	document.querySelector(
+		".diskChartTitle"
+	).innerHTML = `<h5>Disk Scheduling - ${title} Scheduling - Scatter Chart</h5>`;
+	document.querySelector(".diskTableTitle").innerHTML = `<h5>Disk Scheduling - ${title} Scheduling - Table</h5>`;
 };
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -97,17 +100,24 @@ function getData() {
 }
 
 function calculate(type, data, totalNumberOfIO) {
-	let processedData;
+	let returnData;
 	const chart = new Chart();
 	let title = "";
 
 	switch (type) {
 		case "dFCFS":
-			title = "Disk - First Come First Serve";
-			processedData = dFCFS(data);
+			title = "First Come First Serve";
+			returnData = dfcfs(data);
+			break;
+		case "dSSTF":
+			title = "Shortest Seek Time First";
+			returnData = dsstf(data);
 			break;
 	}
 
+	let { processedData, totalTime } = returnData;
+
+	document.querySelector(".total").innerHTML = `<b>Total Seek Time: ${totalTime}<b/>`;
 	setTitle(title);
 	chart.lineChart(processedData, totalNumberOfIO);
 	createTableDisk(processedData);

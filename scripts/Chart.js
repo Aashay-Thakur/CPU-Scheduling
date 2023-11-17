@@ -185,7 +185,8 @@ export default class Chart {
 			.attr("class", "point tooltipped")
 			.attr("data-position", "top")
 			.attr("data-tooltip", (d) => {
-				return `Request ${d[0] + 1}<br/>Location: ${d[1].location}<br/>Seek Time: ${d[1].seek}`;
+				if (d[1].initial) return `Initial Head Location: ${d[1].location}`;
+				return `Request ${d[0]}<br/>Location: ${d[1].location}<br/>Seek Time: ${d[1].seek}`;
 			});
 		// .append("title")
 		// .text((d) => {
