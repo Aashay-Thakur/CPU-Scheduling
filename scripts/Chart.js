@@ -197,7 +197,7 @@ export default class Chart {
 		var tooltips = M.Tooltip.init(document.querySelectorAll(".point"));
 		tooltips.forEach((tooltip, index) => {
 			tooltip.options.postion = "right";
-			tooltip.tooltipEl.style.left = xScale(dataset[index][1].location) + 100 + "px";
+			tooltip.tooltipEl.style.left = xScale(dataset[index][1].location + 50) + "px";
 			tooltip.tooltipEl.style.marginTop = "50px";
 		});
 
