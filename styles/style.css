@@ -289,12 +289,14 @@ tr.p10row.highlight-row {
   border-right: 1px solid rgba(0, 0, 0, 0.2);
   min-width: 75px;
 }
-#tableIO tr td.initial,
-.outputTableDisk tr td.initial {
+#tableIO tr td.initial, #tableIO tr td.end,
+.outputTableDisk tr td.initial,
+.outputTableDisk tr td.end {
   position: relative;
 }
-#tableIO tr td.initial::after,
-.outputTableDisk tr td.initial::after {
+#tableIO tr td.initial::after, #tableIO tr td.end::after,
+.outputTableDisk tr td.initial::after,
+.outputTableDisk tr td.end::after {
   content: "";
   height: 5px;
   width: 5px;
@@ -303,6 +305,10 @@ tr.p10row.highlight-row {
   position: absolute;
   left: 10%;
   top: 10%;
+}
+#tableIO tr td.end::after,
+.outputTableDisk tr td.end::after {
+  background-color: red;
 }
 
 .total {

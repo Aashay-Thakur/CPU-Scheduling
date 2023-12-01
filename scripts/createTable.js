@@ -101,6 +101,13 @@ function createTableDisk(data) {
 			orderCell.setAttribute("data-tooltip", "Initial Location");
 			M.Tooltip.init(orderCell, {});
 		}
+		if (item[1].end) {
+			orderCell.classList.add("end");
+			// orderCell.classList.add("end", "tooltipped");
+			// orderCell.setAttribute("data-position", "top");
+			// orderCell.setAttribute("data-tooltip", "End Location");
+			// M.Tooltip.init(orderCell, {});
+		}
 
 		let seekCell = document.createElement("td");
 		seekCell.style.textAlign = "center";
