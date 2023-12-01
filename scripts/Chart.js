@@ -154,7 +154,7 @@ export default class Chart {
 
 		var xScale = d3.scaleLinear();
 		xScale.domain([0, 199]);
-		xScale.range([0, parseInt(document.querySelector(".outputDisk").offsetWidth)]);
+		xScale.range([20, parseInt(document.querySelector(".outputDisk").offsetWidth) - 20]);
 
 		d3.select(".outputDisk")
 			.append("svg")
@@ -182,7 +182,12 @@ export default class Chart {
 			.attr("cx", (d) => xScale(d[1].location))
 			.attr("cy", (d, i) => i * heightMultiplier + padding)
 			.attr("r", "5px")
-			.attr("class", "point")
+			.attr("class", (d) => {
+				let classes = "point";
+				if (d[1].initial) classes += " initial";
+				else if (d[1].end) classes += " end";
+				return classes;
+			})
 			// .attr("data-position", "top")
 			// .attr("data-tooltip", (d) => {
 			// 	if (d[1].initial) return `Initial Head Location: ${d[1].location}`;
@@ -191,7 +196,8 @@ export default class Chart {
 			.append("title")
 			.text((d) => {
 				if (d[1].initial) return `Initial Head Location: ${d[1].location}`;
-				return `Request ${d[0] + 1}\nLocation: ${d[1].location}\nSeek Time: ${d[1].seek}`;
+				if (d[1].end) return `Disk End`;
+				return `Request: ${d[0]}\nLocation: ${d[1].location}\nSeek Time: ${d[1].seek}`;
 			});
 
 		// var tooltips = M.Tooltip.init(document.querySelectorAll(".point"));

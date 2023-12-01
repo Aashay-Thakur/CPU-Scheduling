@@ -375,6 +375,12 @@ body::-webkit-scrollbar,
 #line-chart .point:focus {
   outline: none;
 }
+#line-chart .initial {
+  fill: red;
+}
+#line-chart .end {
+  fill: red;
+}
 
 @keyframes rotate {
   0% {

@@ -1,4 +1,4 @@
-export default function dscan(data) {
+export default function scanScheduling(data) {
 	let orderedData = [data[0]];
 	data.shift();
 
@@ -22,6 +22,11 @@ export default function dscan(data) {
 		});
 
 		if (candidates.length === 0) {
+			orderedData.push([
+				0,
+				{ location: direction === 1 ? 199 : 0, seek: 199 - currentLocation, arrival: 0, end: true },
+			]);
+			currentLocation = orderedData[orderedData.length - 1][1].location;
 			// Change direction and continue
 			direction = -direction;
 			continue;
@@ -36,6 +41,11 @@ export default function dscan(data) {
 		data.splice(data.indexOf(nextRequest), 1);
 		orderedData[orderedData.length - 1][1].seek = Math.abs(nextRequest[1].location - currentLocation);
 		currentLocation = nextRequest[1].location;
+
+		if (data.length === 0) {
+			orderedData.push([0, { location: direction === 1 ? 199 : 0, seek: 199, arrival: 0, end: true }]);
+			break;
+		}
 	}
 
 	let totalTime = orderedData.reduce((acc, item) => acc + item[1].seek, 0);

@@ -121,9 +121,10 @@ function calculate(type, data, totalNumberOfIO) {
 	}
 
 	let { processedData, totalTime } = returnData;
+	console.log(processedData);
 
 	document.querySelector(".total").innerHTML = `<b>Total Seek Time: ${totalTime}<b/>`;
 	setTitle(title);
-	chart.lineChart(processedData, totalNumberOfIO);
+	chart.lineChart(processedData, processedData.length);
 	createTableDisk(processedData);
 }
