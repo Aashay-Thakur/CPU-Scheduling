@@ -1,4 +1,4 @@
-export default function scanScheduling(data) {
+export default function dscan(data) {
 	let orderedData = [data[0]];
 	data.shift();
 
@@ -43,7 +43,15 @@ export default function scanScheduling(data) {
 		currentLocation = nextRequest[1].location;
 
 		if (data.length === 0) {
-			orderedData.push([0, { location: direction === 1 ? 199 : 0, seek: 199, arrival: 0, end: true }]);
+			orderedData.push([
+				0,
+				{
+					location: direction === 1 ? 199 : 0,
+					seek: currentLocation,
+					arrival: 0,
+					end: true,
+				},
+			]);
 			break;
 		}
 	}
