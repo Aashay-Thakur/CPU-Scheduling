@@ -1,5 +1,6 @@
 import dfcfs from "./algorithms/disk/dfcfs.js";
 import dsstf from "./algorithms/disk/dsstf.js";
+import dscan from "./algorithms/disk/dscan.js";
 
 import { fillDiskData } from "./fillData.js";
 import Chart from "./Chart.js";
@@ -112,6 +113,10 @@ function calculate(type, data, totalNumberOfIO) {
 		case "dSSTF":
 			title = "Shortest Seek Time First";
 			returnData = dsstf(data);
+			break;
+		case "dSCAN":
+			title = "SCAN";
+			returnData = dscan(data);
 			break;
 	}
 

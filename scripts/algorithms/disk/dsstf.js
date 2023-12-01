@@ -1,4 +1,4 @@
-export default function dSSTF(data) {
+export default function dsstf(data) {
 	let orderedData = [data[0]];
 	data.shift();
 

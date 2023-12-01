@@ -37,7 +37,6 @@ function fillData(type, randomize = false) {
 
 function fillDiskData(type) {
 	let arrivalData = new Array(10).fill(0);
-	arrivalData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 	let locationData = [11, 28, 2, 10, 16, 3, 189, 50, 43, 32];
 
 	document.querySelectorAll(".ioarrivalInput").forEach((elem, index) => {
