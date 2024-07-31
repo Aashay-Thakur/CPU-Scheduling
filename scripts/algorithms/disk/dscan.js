@@ -7,7 +7,7 @@ export default function dscan(data) {
 	let FAILSAFE = 1000;
 
 	while (true && FAILSAFE-- > 0) {
-		let candidates = data.filter((item) => {
+		let requests = data.filter((item) => {
 			if (direction === 1) {
 				return (
 					item[1].location >= currentLocation &&
@@ -21,7 +21,7 @@ export default function dscan(data) {
 			}
 		});
 
-		if (candidates.length === 0) {
+		if (requests.length === 0) {
 			orderedData.push([
 				0,
 				{ location: direction === 1 ? 199 : 0, seek: 199 - currentLocation, arrival: 0, end: true },
@@ -32,11 +32,11 @@ export default function dscan(data) {
 			continue;
 		}
 
-		candidates.sort((a, b) => {
+		requests.sort((a, b) => {
 			return direction === 1 ? a[1].location - b[1].location : b[1].location - a[1].location;
 		});
 
-		let nextRequest = candidates[0];
+		let nextRequest = requests[0];
 		orderedData.push(nextRequest);
 		data.splice(data.indexOf(nextRequest), 1);
 		orderedData[orderedData.length - 1][1].seek = Math.abs(nextRequest[1].location - currentLocation);

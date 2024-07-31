@@ -251,17 +251,24 @@ tr.p10row.highlight-row {
   height: 100px;
   width: 100px;
   position: relative;
+  outline: 1px solid red;
 }
 .preloader .small-gear {
+  height: 50px;
+  width: 50px;
   position: absolute;
-  bottom: 0;
-  right: 0;
+  bottom: -25%;
+  right: -25%;
   animation: rotate 2s linear infinite;
+  transform-origin: center;
 }
 .preloader .large-gear {
+  height: 100px;
+  width: 100px;
   position: absolute;
   top: 0;
   left: 0;
+  transform-origin: center;
   animation: rotate 2s linear infinite reverse;
 }
 

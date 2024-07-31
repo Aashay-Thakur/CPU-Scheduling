@@ -285,6 +285,9 @@ submit.addEventListener("click", () => {
 });
 
 document.querySelector(".preloader").remove();
+
 // if (document.querySelector(".preloader")) {
-// 	setTimeout(() => {}, 1000);
+// 	setTimeout(() => {
+// 		document.querySelector(".preloader").remove();
+// 	}, 50000);
 // }

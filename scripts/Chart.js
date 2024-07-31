@@ -207,7 +207,12 @@ export default class Chart {
 		// 	tooltip.tooltipEl.style.top = index * heightMultiplier + padding + "px";
 		// });
 
-		let ticks = this.getLineTicks(dataset);
+		// let ticks = this.getLineTicks(dataset);
+		let ticks = [];
+		for (let i = 0; i < 200; i += 10) {
+			ticks.push(i);
+		}
+		ticks.push(199);
 		let xAxis = d3.axisBottom(xScale).tickValues(ticks);
 
 		d3.select("#line-chart")
