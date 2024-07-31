@@ -1,3 +1,5 @@
+import M from "materialize-css";
+
 function createTable(data, type) {
 	data = data.sort((a, b) => a[1].pid - b[1].pid);
 

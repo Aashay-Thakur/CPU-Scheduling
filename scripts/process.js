@@ -10,6 +10,7 @@ import Chart from "./Chart.js";
 import { createTable } from "./createTable.js";
 
 import { fillData } from "./fillData.js";
+import M from "materialize-css";
 
 // global variables
 const submit = document.querySelector(".submit");

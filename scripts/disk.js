@@ -5,6 +5,7 @@ import dscan from "./algorithms/disk/dscan.js";
 import { fillDiskData } from "./fillData.js";
 import Chart from "./Chart.js";
 import { createTableDisk } from "./createTable.js";
+import M from "materialize-css";
 
 const submitDisk = document.querySelector(".submitDisk");
 const calculateDisk = () => submitDisk.dispatchEvent(new Event("click", { bubbles: true }));

@@ -5,14 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>CPU Scheduling</title>
 		<link rel="shortcut icon" href="./favicon.png" type="image/x-icon" />
-		<link
-			rel="stylesheet"
-			href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
-		/>
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
-		<link rel="stylesheet" href="./styles/style.css" />
 	</head>
 	<body>
 		<div class="preloader">
@@ -207,17 +200,5 @@
 				</div>
 			</div>
 		</div>
-		<script>
-			var currentTab = "process";
-			document.addEventListener("DOMContentLoaded", function () {
-				var elems = document.querySelectorAll(".sidenav");
-				var instances = M.Sidenav.init(elems, {});
-
-				M.Tabs.init(document.querySelector(".tabs"), {});
-				M.FormSelect.init(document.querySelectorAll("select"), {});
-			});
-		</script>
-		<script src="./scripts/process.js" type="module"></script>
-		<script src="./scripts/disk.js" type="module"></script>
 	</body>
 </html>
