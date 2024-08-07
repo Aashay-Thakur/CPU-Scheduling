@@ -15,6 +15,8 @@ function processData(data) {
 }
 
 export default function srtf(processes) {
+	if (Object.keys(processes).length === 0) return [];
+
 	var sortable = [];
 	for (let process in processes) {
 		sortable.push([

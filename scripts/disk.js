@@ -8,30 +8,35 @@ import { createTableDisk } from "./createTable.js";
 import M from "materialize-css";
 
 const submitDisk = document.querySelector(".submitDisk");
-const calculateDisk = () => submitDisk.dispatchEvent(new Event("click", { bubbles: true }));
+const calculateDisk = () =>
+	submitDisk.dispatchEvent(new Event("click", { bubbles: true }));
 
-const setTitle = (title) => {
+const setTitle = title => {
 	document.querySelector(
-		".diskChartTitle"
+		".diskChartTitle",
 	).innerHTML = `<h5>Disk Scheduling - ${title} Scheduling - Scatter Chart</h5>`;
-	document.querySelector(".diskTableTitle").innerHTML = `<h5>Disk Scheduling - ${title} Scheduling - Table</h5>`;
+	document.querySelector(
+		".diskTableTitle",
+	).innerHTML = `<h5>Disk Scheduling - ${title} Scheduling - Table</h5>`;
 };
 
 document.addEventListener("DOMContentLoaded", () => {
 	var totalNumberOfIO = document.getElementById("numberOfIO").value;
 
-	document.getElementById("numberOfIO").addEventListener("change", function (e) {
-		if (e.target.value < 10) {
-			e.target.value = 10;
-			M.toast({ html: "Minimum number of I/O is 10" });
-		} else if (e.target.value > 20) {
-			e.target.value = 20;
-			M.toast({ html: "Maximum number of I/O is 20" });
-		}
+	document
+		.getElementById("numberOfIO")
+		.addEventListener("change", function (e) {
+			if (e.target.value < 10) {
+				e.target.value = 10;
+				M.toast({ html: "Minimum number of I/O is 10" });
+			} else if (e.target.value > 20) {
+				e.target.value = 20;
+				M.toast({ html: "Maximum number of I/O is 20" });
+			}
 
-		totalNumberOfIO = e.target.value;
-		updateTable(totalNumberOfIO);
-	});
+			totalNumberOfIO = e.target.value;
+			updateTable(totalNumberOfIO);
+		});
 
 	updateTable(totalNumberOfIO);
 
@@ -74,7 +79,9 @@ function updateTable(totalNumberOfIO) {
 			`;
 
 		arrivalRow.innerHTML += cell;
-		locationRow.innerHTML += cell.replace(/arrival/g, "location").replace(/<label.+<\/label>/, "");
+		locationRow.innerHTML += cell
+			.replace(/arrival/g, "location")
+			.replace(/<label.+<\/label>/, "");
 	}
 
 	table.appendChild(arrivalRow);
@@ -86,9 +93,13 @@ function updateTable(totalNumberOfIO) {
 function getData() {
 	var arrivalInputs = document.querySelectorAll(".ioarrivalInput");
 	var locationInputs = document.querySelectorAll(".iolocationInput");
-	var initialLocation = parseInt(document.getElementById("initialLocation").value);
+	var initialLocation = parseInt(
+		document.getElementById("initialLocation").value,
+	);
 
-	let data = [[0, { initial: true, location: initialLocation, arrival: 0, seek: 0 }]];
+	let data = [
+		[0, { initial: true, location: initialLocation, arrival: 0, seek: 0 }],
+	];
 
 	arrivalInputs.forEach((input, index) => {
 		data.push([index + 1, { arrival: parseInt(input.value) }]);
@@ -123,7 +134,9 @@ function calculate(type, data, totalNumberOfIO) {
 
 	let { processedData, totalTime } = returnData;
 
-	document.querySelector(".total").innerHTML = `<b>Total Seek Time: ${totalTime}<b/>`;
+	document.querySelector(
+		".total",
+	).innerHTML = `<b>Total Seek Time: ${totalTime}<b/>`;
 	setTitle(title);
 	chart.lineChart(processedData, processedData.length);
 	createTableDisk(processedData);

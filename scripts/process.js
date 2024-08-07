@@ -12,13 +12,21 @@ import { createTable } from "./createTable.js";
 import { fillData } from "./fillData.js";
 import M from "materialize-css";
 
+import { auth } from "../firebase-config.js";
+import { signOut } from "firebase/auth";
+
 // global variables
 const submit = document.querySelector(".submit");
-const calculate = () => submit.dispatchEvent(new Event("click", { bubbles: true }));
+const calculate = () =>
+	submit.dispatchEvent(new Event("click", { bubbles: true }));
 const chart = new Chart();
-const setTitle = (title) => {
-	document.querySelector(".sub_chart").innerHTML = `<h5>${title} Scheduling - Gantt Chart</h5>`;
-	document.querySelector(".sub_table").innerHTML = `<h5>${title} Scheduling - Table</h5>`;
+const setTitle = title => {
+	document.querySelector(
+		".sub_chart",
+	).innerHTML = `<h5>${title} Scheduling - Gantt Chart</h5>`;
+	document.querySelector(
+		".sub_table",
+	).innerHTML = `<h5>${title} Scheduling - Table</h5>`;
 };
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -27,46 +35,54 @@ document.addEventListener("DOMContentLoaded", function () {
 	addProcesses(5, type);
 	/* Event Listeners */
 	// Listen for Changes in the number of processes
-	document.getElementById("numberOfProcesses").addEventListener("change", (e) => {
-		if (e.target.value < 5) {
-			e.target.value = 5;
-			M.toast({ html: "Minimum number of processes is 5" });
-			addProcesses(e.target.value, type);
-		} else if (e.target.value > 10) {
-			e.target.value = 10;
-			M.toast({ html: "Maximum number of processes is 10" });
-			addProcesses(e.target.value, type);
-		} else {
-			addProcesses(e.target.value, type);
-		}
-	});
+	document
+		.getElementById("numberOfProcesses")
+		.addEventListener("change", e => {
+			if (e.target.value < 5) {
+				e.target.value = 5;
+				M.toast({ html: "Minimum number of processes is 5" });
+				addProcesses(e.target.value, type);
+			} else if (e.target.value > 10) {
+				e.target.value = 10;
+				M.toast({ html: "Maximum number of processes is 10" });
+				addProcesses(e.target.value, type);
+			} else {
+				addProcesses(e.target.value, type);
+			}
+		});
 
 	// Listen for add process button click
 	document.querySelector(".addProcess").addEventListener("click", () => {
 		let numberOfProcessInput = document.getElementById("numberOfProcesses");
 		if (numberOfProcessInput.value < 10) {
 			numberOfProcessInput.value++;
-			numberOfProcessInput.dispatchEvent(new Event("change", { bubbles: true }));
+			numberOfProcessInput.dispatchEvent(
+				new Event("change", { bubbles: true }),
+			);
 		} else {
 			M.toast({ html: "Maximum number of processes is 10" });
 		}
 	});
 
 	// Listen for pre-emption checkbox click
-	document.getElementById("options-container").addEventListener("click", (e) => {
-		if (e.target && e.target.matches("input#pre-emption")) {
-			if (document.querySelector(".quantumInputContainer"))
-				document.querySelector(".quantumInputContainer").classList.toggle("hide");
-			document.querySelector(".log").innerHTML = "";
-			calculate();
-		}
-		if (e.target && e.target.matches("input#reverse-switch")) {
-			calculate();
-		}
-	});
+	document
+		.getElementById("options-container")
+		.addEventListener("click", e => {
+			if (e.target && e.target.matches("input#pre-emption")) {
+				if (document.querySelector(".quantumInputContainer"))
+					document
+						.querySelector(".quantumInputContainer")
+						.classList.toggle("hide");
+				document.querySelector(".log").innerHTML = "";
+				calculate();
+			}
+			if (e.target && e.target.matches("input#reverse-switch")) {
+				calculate();
+			}
+		});
 
 	// Listen for click on a bar in the chart
-	document.getElementById("chart").addEventListener("click", (e) => {
+	document.getElementById("chart").addEventListener("click", e => {
 		if (e.target && e.target.matches("div.chart-bar")) {
 			let row = document.querySelector(`.p${e.target.dataset.pid}row`);
 			row.scrollIntoView({
@@ -119,7 +135,7 @@ function addProcesses(totalNumberOfProcesses, type) {
 }
 
 document.querySelector(".reset").addEventListener("click", () => {
-	document.querySelectorAll("input").forEach((elem) => {
+	document.querySelectorAll("input").forEach(elem => {
 		if (elem.type === "number") elem.value = 0;
 		if (elem.getAttribute("id") === "quantum") elem.value = 10;
 	});
@@ -129,7 +145,7 @@ document.querySelector(".randomize").addEventListener("click", () => {
 	fillData(document.querySelector("#type").value, true);
 });
 
-document.querySelector("#type").addEventListener("change", (e) => {
+document.querySelector("#type").addEventListener("change", e => {
 	let type = e.target.value;
 	updateFormTable(type);
 	fillData(type);
@@ -138,7 +154,7 @@ document.querySelector("#type").addEventListener("change", (e) => {
 
 //* Updates the form table based on the type of algorithm selected
 function updateFormTable(type) {
-	document.querySelectorAll(".toBeRemoved").forEach((elem) => {
+	document.querySelectorAll(".toBeRemoved").forEach(elem => {
 		elem.remove();
 	});
 	document.querySelector(".log").innerHTML = "";
@@ -183,7 +199,7 @@ function updateFormTable(type) {
 				.replace("hide", "tooltipped hide")
 				.replace(
 					"data-",
-					'data-position="right" data-tooltip="Round Robin will be used for processes with the same priority"'
+					'data-position="right" data-tooltip="Round Robin will be used for processes with the same priority"',
 				);
 			M.Tooltip.init(document.querySelectorAll(".tooltipped"), {});
 
@@ -223,20 +239,27 @@ submit.addEventListener("click", () => {
 	let type = document.querySelector("#type").value;
 
 	if (document.querySelector("#quantum")) {
-		if (document.querySelector("#quantum").value === "" || document.querySelector("#quantum").value === "0") {
+		if (
+			document.querySelector("#quantum").value === "" ||
+			document.querySelector("#quantum").value === "0"
+		) {
 			document.querySelector("#quantum").value = 10;
-			M.toast({ html: "Quantum cannot be 0<br/>Setting to default value of 10" });
+			M.toast({
+				html: "Quantum cannot be 0<br/>Setting to default value of 10",
+			});
 		}
 	}
 	//* Fetch data from form, and structure it to pass on to the appropriate algorithm
 	var dataElems = document.querySelectorAll(".process");
 	var processes = {};
-	dataElems.forEach((elem) => {
+	dataElems.forEach(elem => {
 		var data = elem.children;
 		let temp = {};
 		Array.from(data).forEach((elem, index) => {
 			if (index !== 0) {
-				temp[elem.children[0].dataset.name] = Number(elem.children[0].value);
+				temp[elem.children[0].dataset.name] = Number(
+					elem.children[0].value,
+				);
 			}
 		});
 		processes[data[0].innerText] = temp;
@@ -275,7 +298,9 @@ submit.addEventListener("click", () => {
 			}
 			break;
 		case "RR":
-			let option = { quantum: Number(document.querySelector("#quantum").value) };
+			let option = {
+				quantum: Number(document.querySelector("#quantum").value),
+			};
 			result = rr(processes, option);
 			setTitle("Round Robin");
 			break;
@@ -292,3 +317,10 @@ document.querySelector(".preloader").remove();
 // 		document.querySelector(".preloader").remove();
 // 	}, 50000);
 // }
+
+const logout = document.getElementById("logout-link");
+logout.addEventListener("click", () => {
+	signOut(auth).then(() => {
+		window.location.href = "/login.html";
+	});
+});

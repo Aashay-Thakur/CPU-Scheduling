@@ -2,7 +2,7 @@ import * as d3 from "d3";
 import M from "materialize-css";
 
 export default class Chart {
-	colors = [
+	_colors = [
 		"#36a2eb",
 		"#ff6384",
 		"#ff9f40",
@@ -14,19 +14,19 @@ export default class Chart {
 		"#2d5a6a",
 		"#65af50",
 	];
-	lengthMultiplier = 15;
-	lineWidth = "25px";
+	_lengthMultiplier = 15;
+	_lineWidth = "25px";
 
 	get colors() {
-		return this.colors;
+		return this._colors;
 	}
 
 	get lengthMultiplier() {
-		return this.lengthMultiplier;
+		return this._lengthMultiplier;
 	}
 
 	get lineWidth() {
-		return this.lineWidth;
+		return this._lineWidth;
 	}
 
 	getTicks(data) {
@@ -155,6 +155,7 @@ export default class Chart {
 
 		var xScale = d3.scaleLinear();
 		xScale.domain([0, 199]);
+		// @ts-ignore
 		xScale.range([20, parseInt(document.querySelector(".outputDisk").offsetWidth) - 20]);
 
 		d3.select(".outputDisk")

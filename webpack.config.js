@@ -1,18 +1,20 @@
-const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const TerserPlugin = require("terser-webpack-plugin");
-const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
-const CopyWebpackPlugin = require("copy-webpack-plugin");
+import path from "path";
+import HtmlWebpackPlugin from "html-webpack-plugin";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import TerserPlugin from "terser-webpack-plugin";
+import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
+import CopyWebpackPlugin from "copy-webpack-plugin";
 
-module.exports = {
+export default {
 	mode: "production",
 	entry: {
-		main: ["./scripts/main.js", "./scripts/disk.js", "./scripts/process.js"],
+		main: "./scripts/main.js",
+		processAndDisk: ["./scripts/disk.js", "./scripts/process.js"],
+		login: "./scripts/login.js",
 	},
 	output: {
 		filename: "[name].bundle.js",
-		path: path.resolve(__dirname, "dist"),
+		path: path.resolve(process.cwd(), "dist"),
 		clean: true,
 	},
 	module: {
@@ -40,10 +42,17 @@ module.exports = {
 	plugins: [
 		new HtmlWebpackPlugin({
 			template: "./index.html",
-			favicon: "./public/favicon.png", // Add this line to include the favicon in the HTML
+			favicon: "./public/favicon.png",
+			chunks: ["main", "processAndDisk"],
+		}),
+		new HtmlWebpackPlugin({
+			template: "./login.html",
+			filename: "login.html",
+			favicon: "./public/favicon.png",
+			chunks: ["main", "login"],
 		}),
 		new MiniCssExtractPlugin({
-			filename: "styles.css",
+			filename: "[name].css",
 		}),
 		new CopyWebpackPlugin({
 			patterns: [
@@ -55,5 +64,9 @@ module.exports = {
 	optimization: {
 		minimize: true,
 		minimizer: [new TerserPlugin(), new CssMinimizerPlugin()],
+		usedExports: true,
+	},
+	devServer: {
+		historyApiFallback: true, // Add this line to support History API
 	},
 };
